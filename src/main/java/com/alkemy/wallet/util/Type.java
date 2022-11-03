@@ -1,4 +1,4 @@
-package com.alkemy.wallet.model;
+package com.alkemy.wallet.util;
 
 public enum Type {
     INCOME,

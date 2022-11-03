@@ -1,5 +1,7 @@
 package com.alkemy.wallet.model;
 
+import com.alkemy.wallet.util.Type;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -12,15 +14,15 @@ public class Transaction {
     @Column(nullable = false)
     private double amount;
 
-    private enum type {
-        income,
-        payment,
-        deposit
-    }
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "ENUM('income', 'payment', 'deposit')",nullable = false)
+    private Type type;
+
     private String description;
     private Timestamp transactionDate;
 
-    @ManyToOne
+    /*
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "userId")
     private User user;
     public User getUser() { return user;}
@@ -28,6 +30,8 @@ public class Transaction {
     @JoinColumn(name = "accountId")
     private Account account;
     public Account getAccount() { return account;}
+
+*/
 
     public long getId() {
         return id;
@@ -45,6 +49,13 @@ public class Transaction {
         this.amount = amount;
     }
 
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
     public String getDescription() {
         return description;
     }
