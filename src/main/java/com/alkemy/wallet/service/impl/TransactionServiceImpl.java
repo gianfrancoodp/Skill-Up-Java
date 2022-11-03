@@ -1,10 +1,10 @@
 package com.alkemy.wallet.service.impl;
 
-import com.alkemy.wallet.service.IFooService;
+import com.alkemy.wallet.service.TransactionService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class FooServiceImpl implements IFooService {
+public class FooServiceImpl implements TransactionService {
 }
