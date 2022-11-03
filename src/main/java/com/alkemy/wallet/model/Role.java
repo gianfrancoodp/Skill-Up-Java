@@ -1,83 +1,51 @@
 package com.alkemy.wallet.model;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.alkemy.wallet.util.RoleEnum;
+import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name="ROLES")
+@Data
 public class Role {
 
     @Id
     @Column(name="ID")
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    @Column(name="NAME")
-    @NotNull
-    private String name;
+    @Column(name="NAME",nullable=false)
+    @NotNull(message = "You must indicate a name to the Role: ADMIN or USER.")
+    @Enumerated(EnumType.STRING)
+    private RoleEnum.roleEnum name;
     @Column(name="DESCRIPTION")
     private String description;
-    @Column(name="CREATION_DATE")
+    @Column(name="CREATION_DATE",updatable=false)
+    @CreationTimestamp
     private Timestamp creationDate;
     @Column(name="UPDATE_DATE")
+    @UpdateTimestamp
     private Timestamp updateDate;
+
 
     public Role(){
     super();
+    this.creationDate= Timestamp.valueOf(LocalDateTime.now());
     }
 
-    public Role(String name, String description){
+    public Role(RoleEnum.roleEnum name, String description){
         this.name= name;
         this.description= description;
         this.creationDate = Timestamp.valueOf(LocalDateTime.now());
     }
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Timestamp getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Timestamp creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public Timestamp getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Timestamp updateDate) {
-        this.updateDate = updateDate;
-    }
-
-    enum DefineRole {
-        ADMIN,
-        USER
-    }
 }
