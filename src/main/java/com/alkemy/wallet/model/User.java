@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
@@ -34,7 +34,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role roleId;
 
@@ -45,6 +45,7 @@ public class User {
     private Timestamp creationDate;
     @UpdateTimestamp
     private Timestamp updateDate;
+
 
     private boolean deleted = Boolean.FALSE;
 
