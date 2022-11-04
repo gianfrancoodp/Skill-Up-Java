@@ -9,8 +9,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Entity
 @Table(name="ROLES")
@@ -34,29 +32,4 @@ public class Role {
     @UpdateTimestamp
     private Timestamp updateDate;
 
-
-    public Role(){
-    super();
-    this.creationDate= Timestamp.valueOf(LocalDateTime.now());
-    }
-
-    public Role(RoleEnum.roleEnum name, String description){
-        this.name= name;
-        this.description= description;
-        this.creationDate = Timestamp.valueOf(LocalDateTime.now());
-    }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Role role = (Role) o;
-        return name == role.name;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
-    }
 }
