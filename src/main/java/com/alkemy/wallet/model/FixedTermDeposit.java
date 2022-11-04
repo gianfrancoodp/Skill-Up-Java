@@ -19,15 +19,19 @@ public class FixedTermDeposit {
     @Column(name = "AMOUNT", nullable = false )
     private double amount;
 
-    //@ManyToOne
-    //@JoinTable(name = "users_fixed_term_deposits", joinColumns = @JoinColumn(name = "FIXED_TERM_DEPOSIT_ID"), inverseJoinColumns = @JoinColumn(name = "USER_ID"))
-    @Column(name = "USER_ID", nullable = false)
-    private long userId;
+    @ManyToOne
+    @JoinColumn(name = "USER_ID",insertable = false,updatable = false)
+    private User user;
 
-    //@ManyToOne
-    //@JoinTable(name = "accounts_fixed_term_deposits", joinColumns = @JoinColumn(name = "FIXED_TERM_DEPOSIT_ID"), inverseJoinColumns = @JoinColumn(name = "ACCOUNT_ID"))
+    @Column(name = "USER_ID", nullable = false)
+    private Long userId;
+
+    @ManyToOne
+    @JoinColumn(name = "ACCOUNT_ID",insertable = false,updatable = false)
+    private Account account;
+
     @Column(name = "ACCOUNT_ID", nullable = false)
-    private long accountId;
+    private Long accountId;
 
     @Column(name = "INTEREST", nullable = false)
     private double interest;
