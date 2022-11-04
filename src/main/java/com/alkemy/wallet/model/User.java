@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-@Table(name="users")
+@Table(name="USERS")
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
 
@@ -22,10 +22,10 @@ public class User {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "FIRST_NAME", nullable = false)
     private String firstName;
 
-    @Column(name = "last_name", nullable = false)
+    @Column(name = "LAST_NAME", nullable = false)
     private String lastName;
 
     @Column(nullable = false, unique=true)
@@ -35,12 +35,12 @@ public class User {
     private String password;
 
     @ManyToOne
-    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    @JoinColumn(name = "ROLE_ID", referencedColumnName = "id")
     private Role roleId;
 
-    //atributo account borrado
 
-    @Column(name = "created_date", updatable=false)
+
+    @Column(name = "CREATED_DATE", updatable=false)
     @CreationTimestamp
     private Timestamp creationDate;
     @UpdateTimestamp
