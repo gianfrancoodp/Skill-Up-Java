@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "fixed_term_deposits")
+@Table(name = "FIXED_TERM_DEPOSITS")
 @Data
 public class FixedTermDeposit {
 
