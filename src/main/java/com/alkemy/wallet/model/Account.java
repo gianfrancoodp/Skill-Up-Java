@@ -1,6 +1,7 @@
 package com.alkemy.wallet.model;
 
 import com.alkemy.wallet.util.CurrencyEnum;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,36 +16,36 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "accounts")
-@Getter
-@Setter
-@SQLDelete(sql = "UPDATE accounts SET deleted = true WHERE account_id=?")
+@Data
+@SQLDelete(sql = "UPDATE accounts SET deleted = true WHERE ACCOUNT_ID=?")
 @Where(clause = "deleted=false")
 @NoArgsConstructor
 public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "account_id", nullable = false)
+    @Column(name = "ACCOUNT_ID", nullable = false)
     private Long accountId;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "CURRENCY" , nullable = false)
     private CurrencyEnum currency;
 
-    @Column(name = "transaction_limit", nullable = false)
+    @Column(name = "TRANSACTION_LIMIT", nullable = false)
     private Double transactionLimit;
 
-    @Column(nullable = false)
+    @Column(name= "BALANCE" , nullable = false)
     private Double balance;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "USER_ID", insertable = false, updatable = false, nullable = false)
     private User userId;
 
-    @Column(name = "created_date", updatable=false)
+    @Column(name = "CREATED_DATE", updatable=false)
     @CreationTimestamp
     private Timestamp creationDate;
 
+    @Column(name = "UPDATE_DATE")
     @UpdateTimestamp
     private Timestamp updateDate;
 
@@ -58,4 +59,6 @@ public class Account {
         this.userId = userId;
         this.creationDate = Timestamp.valueOf(LocalDateTime.now());
     }
+
+
 }
