@@ -1,11 +1,12 @@
 package com.alkemy.wallet.service;
 
 import com.alkemy.wallet.model.Role;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface IRoleService extends JpaRepository<Role,Long> {
+@Service
+public interface IRoleService {
 
     /**
      * Deletes a Role from the database using its Id number.
@@ -16,9 +17,16 @@ public interface IRoleService extends JpaRepository<Role,Long> {
 
     /**
      * Return a list containing all roles persisted in Database.
-     * @return Role List
+     * @return List<Role>
      */
     public List<Role> getAll();
 
+    /**
+     *save or update a Role given an object of its class.
+     * @return Role
+     * @param role
+     * @throws Exception
+     */
+    public Role update(Role role) throws Exception;
 
 }

@@ -1,18 +1,17 @@
-package com.alkemy.wallet.service;
+package com.alkemy.wallet.service.impl;
 
 import com.alkemy.wallet.model.User;
 import com.alkemy.wallet.repository.IUserRepository;
+import com.alkemy.wallet.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.xml.validation.Validator;
 import java.util.List;
 
 
 @Service
-public class IUserServiceImpl implements IUserService {
-    @Autowired
-    private Validator validator;
+public class UserServiceImpl implements IUserService {
+
     @Autowired
     private IUserRepository userRepository;
 
