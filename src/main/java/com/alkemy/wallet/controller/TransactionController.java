@@ -1,12 +1,9 @@
 package com.alkemy.wallet.controller;
 
 import com.alkemy.wallet.model.Transaction;
-import com.alkemy.wallet.model.User;
 import com.alkemy.wallet.repository.TransactionRepository;
-import com.alkemy.wallet.repository.UserRepository;
 import com.alkemy.wallet.service.TransactionService;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Data
-@Table(name = "Transactions")
+@Table(name = "TRANSACTIONS")
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +33,8 @@ public class Transaction {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ACCOUNT_ID")
     private Account account;
+
+
 }
 
 
