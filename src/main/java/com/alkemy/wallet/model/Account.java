@@ -15,9 +15,9 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "accounts")
+@Table(name = "ACCOUNTS")
 @Data
-@SQLDelete(sql = "UPDATE accounts SET deleted = true WHERE ACCOUNT_ID=?")
+@SQLDelete(sql = "UPDATE ACCOUNTS SET deleted = true WHERE ACCOUNT_ID=?")
 @Where(clause = "deleted=false")
 @NoArgsConstructor
 public class Account {
