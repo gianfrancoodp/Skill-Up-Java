@@ -1,10 +1,9 @@
 package com.alkemy.wallet.mapper;
 
-import com.alkemy.wallet.dto.UserDTO;
+import com.alkemy.wallet.dto.basicDTO.UserBasicDTO;
 import com.alkemy.wallet.model.User;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,44 +14,32 @@ import java.util.Set;
 @Component
 public class UserMapper {
 
+    private ModelMapper modelMapper = new ModelMapper();
 
-
-
-       public User userDTO2Entity(UserDTO userDTO){
-            User userEntity = new User();
-            userEntity.setFirstName(userDTO.getFirstName();
-            userEntity.setLastName(userDTO.getLastName());
-            userEntity.setEmail(userDTO.getEmail());
-
-            return userEntity;
-        }
-
-        public UserDTO userEntity2DTO(User userEntity){
-            UserDTO userDTO = new UserDTO();
-
-            userDTO.setFirstName(userEntity.getFirstName());
-            userDTO.setLastName(userEntity.getLastName());
-            userDTO.setEmail(userEntity.getEmail());
-            return userDTO;
-        }
-
-        public List<UserDTO> userEntity2DTOList(List<User>entities){
-            List<UserDTO> dtos = new ArrayList<>();
-            for(User entity: entities){
-                dtos.add(this.userEntity2DTOList(entity));
-            }
-            return dtos;
-        }
-
-    public Set<User> userDTOList2EntityList(Set<UserDTO> userDTOList) {
-        Set<User> entityList = new HashSet<>();
-        for (UserDTO userDTO : userDTOList) {
-            entityList.add(userDTO2Entity(userDTO));
-        }
-        return entityList;
+    public UserBasicDTO userEntity2DTO(User entity){
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        UserBasicDTO result = this.modelMapper.map(entity, UserBasicDTO.class);
+        return result;
     }
 
+    public User userDTO2Entity(UserBasicDTO userBasicDTO){
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        User result = this.modelMapper.map(userBasicDTO, User.class);
+        return result;
+    }
 
+    public List<UserBasicDTO> userEntity2DTOList(List<User> entities){
+        List<UserBasicDTO> dtos = new ArrayList<>();
+        for(User entity:entities){
+            dtos.add(this.userEntity2DTO(entity));
         }
+        return dtos;
+    }
 
-}
+    public List<User> userDTO2EntityList(List<UserBasicDTO> dtos){
+        List<User> entities = new ArrayList<>();
+        for(UserBasicDTO dto:dtos){
+            entities.add(this.userDTO2Entity(dto));
+        }
+        return entities;
+    }}

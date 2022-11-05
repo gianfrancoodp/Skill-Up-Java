@@ -2,6 +2,7 @@ package com.alkemy.wallet.model;
 
 import lombok.Data;
 
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -34,9 +35,9 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    /*@ManyToOne
+    @ManyToOne
     @JoinColumn(name = "ROLE_ID", referencedColumnName = "id")
-    private Role roleId;*/
+    private Role roleId;
 
 
 

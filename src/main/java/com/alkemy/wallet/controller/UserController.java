@@ -1,11 +1,8 @@
 package com.alkemy.wallet.controller;
 
 
-import com.alkemy.wallet.dto.UserDTO;
-import com.alkemy.wallet.model.User;
-import com.alkemy.wallet.repository.UserRepository;
+import com.alkemy.wallet.dto.basicDTO.UserBasicDTO;
 import com.alkemy.wallet.service.IUserService;
-import com.alkemy.wallet.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/wallet")
-
 
 public class UserController {
 
@@ -23,7 +18,7 @@ public class UserController {
 
 
     @GetMapping("/users")
-    public List<UserDTO> getUsers() {
+    public List<UserBasicDTO> getUsers() {
         return userService.getUsers();}
 
     @GetMapping("accounts/userId")

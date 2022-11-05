@@ -1,6 +1,6 @@
 package com.alkemy.wallet.service.impl;
 
-import com.alkemy.wallet.dto.UserDTO;
+import com.alkemy.wallet.dto.basicDTO.UserBasicDTO;
 import com.alkemy.wallet.mapper.UserMapper;
 import com.alkemy.wallet.model.User;
 import com.alkemy.wallet.repository.UserRepository;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 
 
 @Service
@@ -23,10 +24,10 @@ public class UserService implements IUserService {
 
 
     @Override
-    public List<UserDTO> getUsers() {
-        List<User> users = userRepository.findAll();
-        List<UserDTO> userDTO = userMapper.userEntity2DTO(User users);
-        return userDTO;
+    public List<UserBasicDTO> getUsers() {
+        List<User> entities = userRepository.findAll();
+        List <UserBasicDTO> userBasicDTO = userMapper.userEntity2DTOList(entities);
+        return userBasicDTO;
     }
 
     @Override
