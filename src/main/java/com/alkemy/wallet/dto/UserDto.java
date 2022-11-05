@@ -3,7 +3,7 @@ package com.alkemy.wallet.dto;
 import lombok.Data;
 
 @Data
-public class UserDto {
+public class git UserDto {
     private Long id;
     private String firstName;
     private String lastName;
