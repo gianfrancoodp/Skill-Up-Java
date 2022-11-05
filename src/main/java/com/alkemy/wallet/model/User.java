@@ -34,9 +34,9 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "ROLE_ID", referencedColumnName = "id")
-    private Role roleId;
+    private Role roleId;*/
 
 
 
@@ -50,7 +50,7 @@ public class User {
     private boolean deleted = Boolean.FALSE;
 
 
-    public User(String firstName, String lastName, String email, String password) {
+    public User() {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
