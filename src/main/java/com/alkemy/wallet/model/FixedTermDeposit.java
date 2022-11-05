@@ -5,6 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "FIXED_TERM_DEPOSITS")
@@ -44,4 +45,19 @@ public class FixedTermDeposit {
     @Column(name = "CLOSING_DATE", updatable=false)
     private Timestamp closingDate;
 
+    // Default Constructor
+    public FixedTermDeposit(){
+
+    }
+
+    // Custom Constructor
+    public FixedTermDeposit(long id, double amount, Long userId, Long accountId, double interest, Timestamp closingDate) {
+        this.id = id;
+        this.amount = amount;
+        this.userId = userId;
+        this.accountId = accountId;
+        this.interest = interest;
+        this.creationDate = Timestamp.valueOf(LocalDateTime.now());
+        this.closingDate = closingDate;
+    }
 }
