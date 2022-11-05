@@ -6,10 +6,12 @@ import java.util.List;
 
 public interface IUserService {
 
-    //List<UserDTO> getAll();
+    public void delete(Long id) throws Exception;
 
 
     List<UserBasicDTO> getUsers();
 
-    void delete(Long Id);
+
+
+
 }

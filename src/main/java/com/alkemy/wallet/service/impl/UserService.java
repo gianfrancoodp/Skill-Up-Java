@@ -31,12 +31,15 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void delete(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        if(!user.isPresent()){
-            System.out.println("Id user not valid");
+    public void delete(Long id) throws Exception {
+        if(!userRepository.findById(id).isPresent())
+        {
+            throw new Exception("User not found in database");
         }
-        userRepository.deleteById(id);
+        else
+            userRepository.deleteById(id);
+
+
     }
 
 
