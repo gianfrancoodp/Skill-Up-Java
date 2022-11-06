@@ -1,5 +1,6 @@
 package com.alkemy.wallet.model;
 
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -16,8 +17,11 @@ import java.time.LocalDateTime;
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
 @NoArgsConstructor
+@Data
+@Entity
 public class User {
     @Id
+    @Column(name = "USER_ID", nullable = false)
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
 

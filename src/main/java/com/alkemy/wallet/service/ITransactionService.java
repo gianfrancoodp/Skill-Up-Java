@@ -22,4 +22,6 @@ public interface ITransactionService {
      */
     public Transaction saveDeposit(Transaction transaction) throws Exception;
 
+    public boolean transactionLimit(Long id) throws Exception;
+
 }

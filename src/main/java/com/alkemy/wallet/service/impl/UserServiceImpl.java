@@ -29,4 +29,5 @@ public class UserServiceImpl implements IUserService {
     public List<User> getAll() {
         return userRepository.findAll();
     }
+
 }

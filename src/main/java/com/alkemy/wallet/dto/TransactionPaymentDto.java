@@ -10,6 +10,6 @@ public class TransactionPaymentDto {
     private String description;
 
     private Long userId;
-
-    private String currency;
+    @NotNull(message = "You must provide account number.")
+    private Long accountId;
 }
