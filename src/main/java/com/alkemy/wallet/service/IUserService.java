@@ -18,4 +18,12 @@ public interface IUserService {
      * @return List of Users
      */
     public List<User> getAll();
+
+    /**
+     * Finds a User with her/his Id number.
+     * @param id
+     * @throws Exception
+     * @return User
+     */
+    public User findUserById(Long id) throws Exception;
 }

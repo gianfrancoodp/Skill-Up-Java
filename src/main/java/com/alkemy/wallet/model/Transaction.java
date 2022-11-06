@@ -4,6 +4,7 @@ import com.alkemy.wallet.util.Type;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.sql.Timestamp;
 
 @Entity
@@ -14,6 +15,7 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(name = "AMOUNT", nullable = false)
+    @Min(value = 1, message = "Amount must be greater than 0")
     private double amount;
 
     @Enumerated(EnumType.STRING)
