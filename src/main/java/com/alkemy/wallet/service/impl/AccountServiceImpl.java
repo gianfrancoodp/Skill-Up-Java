@@ -16,8 +16,6 @@ public class AccountServiceImpl implements IAccountService {
     @Autowired
     private AccountRepository accountRepository;
     @Autowired
-    private IAccountService accountService;
-    @Autowired
     private IUserService userService;
 
 
@@ -42,7 +40,7 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     public boolean accountUser(Long id, String userEmail) throws Exception {
-        if (accountService.findAccountByUserId(userService.findByEmail(userEmail)).isEmpty())
+        if (accountRepository.findByUserId(userService.findByEmail(userEmail).getId()).isEmpty())
             return false;
         else
             return true;

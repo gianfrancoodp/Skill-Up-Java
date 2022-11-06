@@ -39,7 +39,7 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name = "ROLE_ID", referencedColumnName = "id")
-    private Long roleId;
+    private Role roleId;
 
 
 

@@ -37,7 +37,9 @@ public class TransactionServiceImpl implements ITransactionService {
 
     @Override
     public List<Transaction> findByAccount(Long id) {
+
         return transactionRepository.findByAccount(id);
+
     }
 
 
