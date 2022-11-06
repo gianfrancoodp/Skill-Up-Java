@@ -1,7 +1,11 @@
 package com.alkemy.wallet.model;
 
 
+
 import lombok.Data;
+
+import lombok.NoArgsConstructor;
+
 
 
 import lombok.NoArgsConstructor;
@@ -17,14 +21,14 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 
+
 @Entity
 @Data
+
 @Table(name="USERS")
 @NoArgsConstructor
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
-
-
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,3 +70,4 @@ public class User {
         this.creationDate = Timestamp.valueOf(LocalDateTime.now());
     }
 }
+
