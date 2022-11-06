@@ -9,6 +9,7 @@ import com.alkemy.wallet.util.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -23,16 +24,28 @@ public class TransactionServiceImpl implements ITransactionService {
 
     @Override
     public Transaction savePayment(Transaction transaction) throws Exception {
-
-        transaction.setType(Type.payment);
-        return transactionRepository.save(transaction);
+        LocalDate date = LocalDate.now();
+        Transaction result;
+        if(accountService.limitTransactions(date,transaction)) {
+            transaction.setType(Type.payment);
+            result = transactionRepository.save(transaction);
+        }
+        else
+            throw new Exception("The diary transaction limit has been reached.");
+        return result;
     }
 
     @Override
     public Transaction saveDeposit(Transaction transaction) throws Exception {
-
-        transaction.setType(Type.deposit);
-        return transactionRepository.save(transaction);
+        LocalDate date = LocalDate.now();
+        Transaction result;
+        if(accountService.limitTransactions(date,transaction)) {
+            transaction.setType(Type.deposit);
+            result = transactionRepository.save(transaction);
+        }
+        else
+            throw new Exception("The diary transaction limit has been reached.");
+        return result;
     }
 
     @Override
@@ -41,6 +54,7 @@ public class TransactionServiceImpl implements ITransactionService {
         return transactionRepository.findByAccount(id);
 
     }
+
 
 
 }

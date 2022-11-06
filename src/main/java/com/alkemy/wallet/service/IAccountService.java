@@ -1,8 +1,10 @@
 package com.alkemy.wallet.service;
 
 import com.alkemy.wallet.model.Account;
+import com.alkemy.wallet.model.Transaction;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,5 +25,6 @@ public interface IAccountService {
      */
     public boolean accountUser(Long accountId, String userEmail) throws Exception;
 
+    public boolean limitTransactions(LocalDate date, Transaction transaction);
 
 }
