@@ -39,7 +39,7 @@ public class Account {
 
     @ManyToOne
     @JoinColumn(name = "USER_ID", insertable = false, updatable = false, nullable = false)
-    private User userId;
+    private User Id;
 
     @Column(name = "CREATED_DATE", updatable=false)
     @CreationTimestamp
@@ -56,7 +56,7 @@ public class Account {
         this.currency = currency;
         this.transactionLimit = transactionLimit;
         this.balance = balance;
-        this.userId = userId;
+        this.Id = userId;
         this.creationDate = Timestamp.valueOf(LocalDateTime.now());
     }
 
