@@ -3,7 +3,9 @@ package com.alkemy.wallet.controller;
 import com.alkemy.wallet.dto.TransactionPaymentDto;
 import com.alkemy.wallet.mapper.TransactionMapper;
 import com.alkemy.wallet.model.Transaction;
+import com.alkemy.wallet.security.GetContextCurrentUser;
 import com.alkemy.wallet.service.ITransactionService;
+import com.alkemy.wallet.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,8 @@ public class TransactionController {
 
     @Autowired
     private ITransactionService transactionService;
+    @Autowired
+    private IUserService userService;
 
     /**
      * Inserts a new payment on table TRANSACTIONS into the database.
@@ -30,7 +34,9 @@ public class TransactionController {
     @PostMapping
     @RequestMapping("/payment")
     public ResponseEntity<Object> payment(@RequestBody TransactionPaymentDto dto) throws Exception {
+        String email = new GetContextCurrentUser().userEmail();
         Transaction transaction = new TransactionMapper().dtoToEntity(dto);
+        transaction.setUser(userService.findByEmail(email));
         transactionService.savePayment(transaction);
         return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
@@ -38,7 +44,9 @@ public class TransactionController {
     @PostMapping
     @RequestMapping("/deposit")
     public ResponseEntity<Object> deposit(@RequestBody TransactionPaymentDto dto) throws Exception {
+        String email = new GetContextCurrentUser().userEmail();
         Transaction transaction = new TransactionMapper().dtoToEntity(dto);
+        transaction.setUser(userService.findByEmail(email));
         transactionService.savePayment(transaction);
         return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }

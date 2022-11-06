@@ -30,7 +30,7 @@ public class Transaction {
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "USER_ID", referencedColumnName = "id")
-    private User user;
+    private Long user;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ACCOUNT_ID")

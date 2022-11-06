@@ -3,6 +3,7 @@ package com.alkemy.wallet.service.impl;
 import com.alkemy.wallet.model.Account;
 import com.alkemy.wallet.repository.AccountRepository;
 import com.alkemy.wallet.service.IAccountService;
+import com.alkemy.wallet.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,10 @@ public class AccountServiceImpl implements IAccountService {
 
     @Autowired
     private AccountRepository accountRepository;
+    @Autowired
+    private IAccountService accountService;
+    @Autowired
+    private IUserService userService;
 
 
     @Override
@@ -34,5 +39,12 @@ public class AccountServiceImpl implements IAccountService {
     @Override
     public List<Account> findByUserId(Long id) {
         return accountRepository.findByUserId(id);
+    }
+
+    public boolean accountUser(Long id, String userEmail) throws Exception {
+        if (accountService.findAccountByUserId(userService.findByEmail(userEmail)).isEmpty())
+            return false;
+        else
+            return true;
     }
 }
