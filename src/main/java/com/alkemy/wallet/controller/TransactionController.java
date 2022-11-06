@@ -32,7 +32,7 @@ public class TransactionController {
     public ResponseEntity<Object> payment(@RequestBody TransactionPaymentDto dto) throws Exception {
         Transaction transaction = new TransactionMapper().dtoToEntity(dto);
         transactionService.savePayment(transaction);
-        return ResponseEntity.status(HttpStatus.CREATED).body(transaction);
+        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 
     @PostMapping
@@ -40,7 +40,7 @@ public class TransactionController {
     public ResponseEntity<Object> deposit(@RequestBody TransactionPaymentDto dto) throws Exception {
         Transaction transaction = new TransactionMapper().dtoToEntity(dto);
         transactionService.savePayment(transaction);
-        return ResponseEntity.status(HttpStatus.CREATED).body(transaction);
+        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 
 }

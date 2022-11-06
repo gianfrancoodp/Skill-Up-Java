@@ -30,4 +30,9 @@ public class AccountServiceImpl implements IAccountService {
     public Optional<Account> findById(Long id) throws Exception {
         return accountRepository.findById(id);
     }
+
+    @Override
+    public List<Account> findByUserId(Long id) {
+        return accountRepository.findByUserId(id);
+    }
 }

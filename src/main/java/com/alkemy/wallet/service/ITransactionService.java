@@ -3,6 +3,8 @@ package com.alkemy.wallet.service;
 import com.alkemy.wallet.model.Transaction;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface ITransactionService {
 
@@ -22,6 +24,11 @@ public interface ITransactionService {
      */
     public Transaction saveDeposit(Transaction transaction) throws Exception;
 
-    public boolean transactionLimit(Long id) throws Exception;
+    /**
+     *
+     * @param id
+     * @return List<Transaction>
+     */
+    public List<Transaction> findByAccount(Long id);
 
 }

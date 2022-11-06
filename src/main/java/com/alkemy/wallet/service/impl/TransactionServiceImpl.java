@@ -8,6 +8,8 @@ import com.alkemy.wallet.util.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TransactionServiceImpl implements ITransactionService {
 
@@ -30,9 +32,8 @@ public class TransactionServiceImpl implements ITransactionService {
     }
 
     @Override
-    public boolean transactionLimit(Long userId) throws Exception {
-
-        return false;
+    public List<Transaction> findByAccount(Long id) {
+        return transactionRepository.findByAccount(id);
     }
 
 

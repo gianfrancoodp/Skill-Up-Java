@@ -14,5 +14,7 @@ public interface IAccountService {
 
     public Optional<Account> findById(Long id) throws Exception;
 
+    public List<Account> findByUserId(Long id);
+
 
 }

@@ -9,7 +9,6 @@ public class TransactionPaymentDto {
     @NotNull(message = "You must provide a description for this transaction.")
     private String description;
 
-    private Long userId;
-    @NotNull(message = "You must provide account number.")
+    @NotNull(message = "You must provide an account number.")
     private Long accountId;
 }
