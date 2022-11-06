@@ -1,11 +1,11 @@
 package com.alkemy.wallet.model;
 
-<<<<<<< HEAD
+
 import lombok.Data;
 
-=======
+
 import lombok.NoArgsConstructor;
->>>>>>> feature/3-userAll
+
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
@@ -16,23 +16,18 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-<<<<<<< HEAD
+
 @Entity
 @Data
 @Table(name="USERS")
-@SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
-@Where(clause = "deleted=false")
-
-=======
-
-@Table(name="USERS")
-@SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
-@Where(clause = "deleted=false")
 @NoArgsConstructor
->>>>>>> feature/3-userAll
+@SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
+@Where(clause = "deleted=false")
+
+
 public class User {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "FIRST_NAME", nullable = false)
@@ -41,7 +36,7 @@ public class User {
     @Column(name = "LAST_NAME", nullable = false)
     private String lastName;
 
-    @Column(nullable = false, unique=true)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
@@ -52,8 +47,7 @@ public class User {
     private Role roleId;
 
 
-
-    @Column(name = "CREATED_DATE", updatable=false)
+    @Column(name = "CREATED_DATE", updatable = false)
     @CreationTimestamp
     private Timestamp creationDate;
     @UpdateTimestamp
@@ -63,20 +57,12 @@ public class User {
     private boolean deleted = Boolean.FALSE;
 
 
-<<<<<<< HEAD
-    public User() {
-=======
     public User(String firstName, String lastName, String email, String password) {
->>>>>>> feature/3-userAll
+
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.creationDate = Timestamp.valueOf(LocalDateTime.now());
     }
-<<<<<<< HEAD
 }
-=======
-}
-
->>>>>>> feature/3-userAll
