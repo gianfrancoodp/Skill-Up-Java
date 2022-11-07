@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
 @NoArgsConstructor
+@Entity
 public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)

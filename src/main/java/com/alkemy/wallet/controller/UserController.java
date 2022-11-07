@@ -1,6 +1,6 @@
 package com.alkemy.wallet.controller;
 
-import com.alkemy.wallet.model.User;
+import com.alkemy.wallet.model.UserEntity;
 import com.alkemy.wallet.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,14 +20,15 @@ public class UserController {
 
     /**
      * Returns a list of all users registrered
+     *
      * @return List<User>
      * @throws Exception
      */
     @GetMapping(value = "", produces = { MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<User>> getAll() throws Exception
+    public ResponseEntity<List<UserEntity>> getAll() throws Exception
     {
-        List<User> answer=userService.getAll();
-        return new ResponseEntity<List<User>>(answer, HttpStatus.OK);
+        List<UserEntity> answer=userService.getAll();
+        return new ResponseEntity<List<UserEntity>>(answer, HttpStatus.OK);
     }
 
     /**
