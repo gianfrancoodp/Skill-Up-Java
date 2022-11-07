@@ -29,13 +29,13 @@ public class AccountServiceImpl implements IAccountService {
 
         if (find.isPresent()){
 
-            if (accountRepository.queryAccountCurrencyUSD(idUser , request.getCurrency()) == null){
+            if (accountRepository.queryAccountCurrencyUSD(idUser , request.getCurrency().getValor()) == null){
 
                 Account entity = accountMapper.map(request);
                 accountRepository.save(entity);
                 return accountMapper.map(entity);
 
-            } else if(accountRepository.queryAccountCurrencyARS(idUser , request.getCurrency()) == null){
+            } else if(accountRepository.queryAccountCurrencyARS(idUser , request.getCurrency().getValor()) == null){
 
                 Account entity = accountMapper.map(request);
                 accountRepository.save(entity);
@@ -66,10 +66,13 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public Double myBalance(Long idUser) {
+    public String myBalance(Long idUser) {
         //method for return balance(ARS and USD) in account
-        return null;
-    }
+        Account findListARS= accountRepository.queryAccountCurrencyARS(idUser , "ARS");
+        Account findListUSD = accountRepository.queryAccountCurrencyUSD(idUser , "USD");
 
+        return "ARS: " + findListARS.getBalance() + "  USD: " + findListUSD.getBalance();
+    }
+       //to do fixed term deposits
 
 }

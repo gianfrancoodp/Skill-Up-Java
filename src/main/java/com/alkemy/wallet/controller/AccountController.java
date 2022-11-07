@@ -27,9 +27,9 @@ public class AccountController {
     }
 
     @GetMapping("/account/balance")
-    public ResponseEntity<Double> myBalance(Long idUser){
+    public ResponseEntity<String> myBalance(Long idUser){
         //method for return balance(ARS and USD) in account
-        return null;
+        return ResponseEntity.ok().body(accountService.myBalance(idUser));
     }
 
 }
