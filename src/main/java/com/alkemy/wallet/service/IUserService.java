@@ -1,6 +1,6 @@
 package com.alkemy.wallet.service;
 
-import com.alkemy.wallet.model.User;
+import com.alkemy.wallet.model.UserEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,8 +17,9 @@ public interface IUserService {
      * Returns a List of all registered Users
      * @return List of Users
      */
-    public List<User> getAll();
+    public List<UserEntity> getAll();
 
-    public User findByEmail(String email);
+
+    public UserEntity findByEmail(String email);
 
 }

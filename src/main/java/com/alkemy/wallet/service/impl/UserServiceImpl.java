@@ -1,6 +1,6 @@
 package com.alkemy.wallet.service.impl;
 
-import com.alkemy.wallet.model.User;
+import com.alkemy.wallet.model.UserEntity;
 import com.alkemy.wallet.repository.IUserRepository;
 import com.alkemy.wallet.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +26,13 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<User> getAll() {
+    public List<UserEntity> getAll() {
         return userRepository.findAll();
     }
 
     @Override
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public UserEntity findByEmail(String email) {
+        return userRepository.findByUsername(email);
     }
 
 }
