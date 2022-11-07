@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 
+@Entity
 @Table(name="USERS")
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
