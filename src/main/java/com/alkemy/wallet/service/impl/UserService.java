@@ -30,6 +30,11 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public User findById(long userId) throws Exception {
+        return userRepository.findById(userId).orElseThrow(()-> new Exception("User not found"));
+    }
+
+    @Override
     public void delete(Long id) throws Exception {
         if(!userRepository.findById(id).isPresent())
         {
