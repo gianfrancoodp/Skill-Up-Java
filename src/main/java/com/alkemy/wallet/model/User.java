@@ -70,4 +70,3 @@ public class User {
         this.creationDate = Timestamp.valueOf(LocalDateTime.now());
     }
 }
-
