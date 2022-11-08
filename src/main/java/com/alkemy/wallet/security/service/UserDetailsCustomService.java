@@ -1,6 +1,6 @@
 package com.alkemy.wallet.security.service;
 
-import com.alkemy.wallet.dto.UserDto;
+import com.alkemy.wallet.dto.UserDTO;
 import com.alkemy.wallet.model.UserEntity;
 import com.alkemy.wallet.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class UserDetailsCustomService implements UserDetailsService {
         return new User(userEntity.getUsername(),userEntity.getPassword(), Collections.emptyList());
     }
 
-    public boolean save(UserDto userDTO){
+    public boolean save(UserDTO userDTO){
         UserEntity userEntity = new UserEntity();
         userEntity.setFirstName(userDTO.getFirstName());
         userEntity.setLastName(userDTO.getLastName());
