@@ -27,4 +27,11 @@ public interface IAccountService {
 
     public boolean limitTransactions(LocalDate date, Transaction transaction);
 
+
+    public String myBalance(Long idUser);
+
+    public Double accountBalance(Long accountId) throws Exception;
+
+    public boolean accountFunds(Transaction transaction, long accountId);
+
 }

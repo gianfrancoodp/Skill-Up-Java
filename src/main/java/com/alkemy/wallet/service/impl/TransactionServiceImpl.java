@@ -26,12 +26,12 @@ public class TransactionServiceImpl implements ITransactionService {
     public Transaction savePayment(Transaction transaction) throws Exception {
         LocalDate date = LocalDate.now();
         Transaction result;
-        if(accountService.limitTransactions(date,transaction)) {
+        if(accountService.limitTransactions(date,transaction) && accountService.accountFunds(transaction, transaction.getAccount().getAccountId())) {
             transaction.setType(Type.payment);
             result = transactionRepository.save(transaction);
         }
         else
-            throw new Exception("The diary transaction limit has been reached.");
+            throw new Exception("The diary transaction limit has been reached or your account funds are not enough");
         return result;
     }
 
@@ -39,14 +39,16 @@ public class TransactionServiceImpl implements ITransactionService {
     public Transaction saveDeposit(Transaction transaction) throws Exception {
         LocalDate date = LocalDate.now();
         Transaction result;
-        if(accountService.limitTransactions(date,transaction)) {
+        if(accountService.limitTransactions(date,transaction) && accountService.accountFunds(transaction, transaction.getAccount().getAccountId())) {
             transaction.setType(Type.deposit);
             result = transactionRepository.save(transaction);
         }
         else
-            throw new Exception("The diary transaction limit has been reached.");
+            throw new Exception("The diary transaction limit has been reached or your account funds are not enough");
         return result;
     }
+
+
 
     @Override
     public List<Transaction> findByAccount(Long id) {
@@ -54,6 +56,10 @@ public class TransactionServiceImpl implements ITransactionService {
         return transactionRepository.findByAccount(id);
 
     }
+
+
+
+
 
 
 

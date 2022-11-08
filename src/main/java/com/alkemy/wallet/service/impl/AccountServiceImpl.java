@@ -58,4 +58,36 @@ public class AccountServiceImpl implements IAccountService {
         return  (transactionRepository.findByAccountAndTransactionDate(transaction.getAccount().getAccountId(),date).size())<=transaction.getAccount().getTransactionLimit();
 
     }
+
+
+
+
+    @Override
+    public String myBalance(Long idUser) {
+        //method for return balance(ARS and USD) in account
+        Account findListARS= accountRepository.queryAccountCurrencyARS(idUser , "ARS");
+        Account findListUSD = accountRepository.queryAccountCurrencyUSD(idUser , "USD");
+
+        return "ARS: " + findListARS.getBalance() + "  USD: " + findListUSD.getBalance();
+    }
+
+    @Override
+    public Double accountBalance(Long accountId) throws Exception {
+        Double balance;
+        if(accountRepository.findById(accountId).isPresent()){
+           return balance = accountRepository.findById(accountId).get().getBalance();
+        }
+        else
+            throw new Exception("The account has not been found in the database.");
+
+    }
+
+    @Override
+    public boolean accountFunds(Transaction transaction, long accountId) {
+        try {
+            return (transaction.getAmount() <= accountRepository.findById(accountId).get().getBalance());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -22,7 +22,7 @@ public class FixedTermDeposit {
 
     @ManyToOne
     @JoinColumn(name = "USER_ID",insertable = false,updatable = false)
-    private User user;
+    private UserEntity user;
 
     @Column(name = "USER_ID", nullable = false)
     private Long userId;
