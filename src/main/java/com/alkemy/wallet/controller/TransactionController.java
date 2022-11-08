@@ -1,9 +1,6 @@
 package com.alkemy.wallet.controller;
 
 import com.alkemy.wallet.dto.TransactionDto;
-import com.alkemy.wallet.model.Transaction;
-import com.alkemy.wallet.repository.IUserRepository;
-import com.alkemy.wallet.repository.TransactionRepository;
 import com.alkemy.wallet.service.ITransactionService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,10 +27,10 @@ public class TransactionController {
 
     @GetMapping("/transactions/:id{id}")
     public TransactionDto transactionDetail(@PathVariable("id") long id) {
-        String principal = SecurityContextHolder.getContext().getAuthentication().getName().toString();
+        String principal = SecurityContextHolder.getContext().getAuthentication().getName();
         TransactionDto transaction = new TransactionDto();
         for (int i=0; i< service.listUser().size(); i++){
-            if (service.listUser().get(i).getEmail().toString().equals(principal)){
+            if (service.listUser().get(i).getEmail().equals(principal)){
                 transaction = service.listDetail(id);
             }
         }
@@ -50,17 +47,13 @@ public class TransactionController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         TransactionDto transaction = new TransactionDto();
         for (int i = 0; i < service.listUser().size(); i++) {
-            if (service.listUser().get(i).getEmail().toString().equals(principal)) {
+            if (service.listUser().get(i).getEmail().equals(principal)) {
                 transaction = service.listDetail(id);
                 transaction.setDescription(description);
                 return service.edit(transaction);
             }
 
         }
-        if (transaction != null){
-            return transaction;}
-        else {
-            throw new RuntimeException();
-        }
+        return transaction;
     }
 }

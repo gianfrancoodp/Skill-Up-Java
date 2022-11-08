@@ -11,8 +11,8 @@ import java.util.List;
 public interface IUserService {
     /**
      * Delete an User using his/her Id number.
-     * @param id
-     * @throws Exception
+     * @param 
+     * @throws
      */
     public void delete(Long id) throws Exception;
     /**
