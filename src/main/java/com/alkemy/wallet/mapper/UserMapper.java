@@ -1,6 +1,6 @@
 package com.alkemy.wallet.mapper;
 
-import com.alkemy.wallet.dto.basicDto.UserBasicDTO;
+import com.alkemy.wallet.dto.basicDTO.UserBasicDTO;
 import com.alkemy.wallet.model.User;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;

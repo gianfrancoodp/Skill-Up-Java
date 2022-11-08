@@ -1,8 +1,7 @@
 package com.alkemy.wallet.service;
 
 import com.alkemy.wallet.dto.TransactionDto;
-import com.alkemy.wallet.dto.basicDto.UserBasicDTO;
-import com.alkemy.wallet.model.Transaction;
+import com.alkemy.wallet.dto.basicDTO.UserBasicDTO;
 
 import java.util.List;
 

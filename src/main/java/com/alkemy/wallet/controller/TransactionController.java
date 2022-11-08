@@ -3,13 +3,12 @@ package com.alkemy.wallet.controller;
 import com.alkemy.wallet.dto.TransactionDto;
 import com.alkemy.wallet.service.ITransactionService;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
+@RequestMapping
 public class TransactionController {
     private ITransactionService service;
 

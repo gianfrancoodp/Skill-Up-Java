@@ -1,13 +1,8 @@
 package com.alkemy.wallet.mapper;
 
 import com.alkemy.wallet.dto.TransactionDto;
-import com.alkemy.wallet.dto.basicDto.UserBasicDTO;
 import com.alkemy.wallet.model.Transaction;
-import com.alkemy.wallet.model.User;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class TransactionMapper {
