@@ -1,11 +1,9 @@
 package com.alkemy.wallet.service;
 
-import com.alkemy.wallet.model.User;
-import org.springframework.stereotype.Service;
+import com.alkemy.wallet.model.UserEntity;
 
 import java.util.List;
 
-@Service
 public interface IUserService {
     /**
      * Delete an User using his/her Id number.
@@ -17,5 +15,5 @@ public interface IUserService {
      * Returns a List of all registered Users
      * @return List of Users
      */
-    public List<User> getAll();
+    public List<UserEntity> getAll();
 }
