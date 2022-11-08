@@ -35,8 +35,8 @@ public class TransactionController {
        String email = jwtUtils.extractUsername(token);
         Transaction transaction = new TransactionMapper().dtoToEntity(dto);
         transaction.setUser(userService.findByEmail(email));
-        transactionService.savePayment(transaction);
-        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
+        TransactionPaymentDto result = new TransactionMapper().entityToDto(transactionService.savePayment(transaction));
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
     @PostMapping
@@ -45,8 +45,8 @@ public class TransactionController {
         String email = jwtUtils.extractUsername(token);
         Transaction transaction = new TransactionMapper().dtoToEntity(dto);
         transaction.setUser(userService.findByEmail(email));
-        transactionService.savePayment(transaction);
-        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
+        TransactionPaymentDto result = new TransactionMapper().entityToDto(transactionService.saveDeposit(transaction));
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
 }

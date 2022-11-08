@@ -9,7 +9,6 @@ import com.alkemy.wallet.util.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -24,10 +23,11 @@ public class TransactionServiceImpl implements ITransactionService {
 
     @Override
     public Transaction savePayment(Transaction transaction) throws Exception {
-        LocalDate date = LocalDate.now();
         Transaction result;
-        if(accountService.limitTransactions(date,transaction) && accountService.accountFunds(transaction, transaction.getAccount().getAccountId())) {
+        if(accountService.limitTransactions(transaction) && accountService.accountFunds(transaction))
+        {
             transaction.setType(Type.payment);
+            accountService.accountBalance(transaction);
             result = transactionRepository.save(transaction);
         }
         else
@@ -37,10 +37,10 @@ public class TransactionServiceImpl implements ITransactionService {
 
     @Override
     public Transaction saveDeposit(Transaction transaction) throws Exception {
-        LocalDate date = LocalDate.now();
         Transaction result;
-        if(accountService.limitTransactions(date,transaction) && accountService.accountFunds(transaction, transaction.getAccount().getAccountId())) {
+        if(accountService.limitTransactions(transaction) && accountService.accountFunds(transaction)) {
             transaction.setType(Type.deposit);
+            accountService.accountBalance(transaction);
             result = transactionRepository.save(transaction);
         }
         else

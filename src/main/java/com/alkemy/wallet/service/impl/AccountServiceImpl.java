@@ -6,10 +6,10 @@ import com.alkemy.wallet.repository.AccountRepository;
 import com.alkemy.wallet.repository.ITransactionRepository;
 import com.alkemy.wallet.service.IAccountService;
 import com.alkemy.wallet.service.IUserService;
+import com.alkemy.wallet.util.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,10 +29,6 @@ public class AccountServiceImpl implements IAccountService {
         return accountRepository.findByUserId(id);
     }
 
-    @Override
-    public void transactionLimitCount(Account account) {
-
-    }
 
     @Override
     public Optional<Account> findById(Long id) throws Exception {
@@ -53,29 +49,30 @@ public class AccountServiceImpl implements IAccountService {
 
 
     @Override
-    public boolean limitTransactions(LocalDate date, Transaction transaction) {
+    public boolean limitTransactions(Transaction transaction) {
+        try{
+            return  (transactionRepository.findByAccountIdAndTransactionDate(transaction.getAccount().getAccountId()).size())<=transaction.getAccount().getTransactionLimit();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
-        return  (transactionRepository.findByAccountAndTransactionDate(transaction.getAccount().getAccountId(),date).size())<=transaction.getAccount().getTransactionLimit();
 
     }
 
 
 
-
     @Override
-    public String myBalance(Long idUser) {
-        //method for return balance(ARS and USD) in account
-        Account findListARS= accountRepository.queryAccountCurrencyARS(idUser , "ARS");
-        Account findListUSD = accountRepository.queryAccountCurrencyUSD(idUser , "USD");
-
-        return "ARS: " + findListARS.getBalance() + "  USD: " + findListUSD.getBalance();
-    }
-
-    @Override
-    public Double accountBalance(Long accountId) throws Exception {
-        Double balance;
-        if(accountRepository.findById(accountId).isPresent()){
-           return balance = accountRepository.findById(accountId).get().getBalance();
+    public void accountBalance(Transaction transaction) throws Exception {
+        Account account = null;
+        if(accountRepository.findById(transaction.getAccount().getAccountId()).isPresent()) {
+            if(transaction.getType().equals(Type.payment)){
+                account = accountRepository.findById(transaction.getAccount().getAccountId()).get();
+                account.setBalance(accountRepository.findById(transaction.getAccount().getAccountId()).get().getBalance() - transaction.getAmount());
+            } else if (transaction.getType().equals(Type.deposit)) {
+                account = accountRepository.findById(transaction.getAccount().getAccountId()).get();
+                account.setBalance(accountRepository.findById(transaction.getAccount().getAccountId()).get().getBalance() + transaction.getAmount());
+            }
+            accountRepository.save(account);
         }
         else
             throw new Exception("The account has not been found in the database.");
@@ -83,11 +80,12 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public boolean accountFunds(Transaction transaction, long accountId) {
+    public boolean accountFunds(Transaction transaction) {
         try {
-            return (transaction.getAmount() <= accountRepository.findById(accountId).get().getBalance());
+            return (transaction.getAmount() <= accountRepository.findById(transaction.getAccount().getAccountId()).get().getBalance());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
+
 }

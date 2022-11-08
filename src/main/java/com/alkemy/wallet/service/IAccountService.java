@@ -4,7 +4,6 @@ import com.alkemy.wallet.model.Account;
 import com.alkemy.wallet.model.Transaction;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,7 +11,6 @@ import java.util.Optional;
 public interface IAccountService {
 
     public List<Account> findAccountByUserId(Long id) throws Exception;
-    public void transactionLimitCount(Account account);
 
     public Optional<Account> findById(Long id) throws Exception;
 
@@ -25,13 +23,13 @@ public interface IAccountService {
      */
     public boolean accountUser(Long accountId, String userEmail) throws Exception;
 
-    public boolean limitTransactions(LocalDate date, Transaction transaction);
+    public boolean limitTransactions(Transaction transaction);
 
 
-    public String myBalance(Long idUser);
 
-    public Double accountBalance(Long accountId) throws Exception;
+    public void accountBalance(Transaction transaction) throws Exception;
 
-    public boolean accountFunds(Transaction transaction, long accountId);
+    public boolean accountFunds(Transaction transaction);
+
 
 }
