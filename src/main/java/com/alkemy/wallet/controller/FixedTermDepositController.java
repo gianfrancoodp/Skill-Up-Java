@@ -14,16 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("fixedDeposit")
 public class FixedTermDepositController {
 
-    /*
     @Autowired
     private IFixedTermDepositService fixedTermDepositService;
 
-
-    TODO: Terminar este Endpoint para el siguiente Feature de "Inversiones"
     @PostMapping
     public ResponseEntity<FixedTermDepositDTO> save(@RequestBody FixedTermDepositDTO dto) {
         FixedTermDepositDTO newFixedTermDeposit = fixedTermDepositService.save(dto);
-        return new ResponseEntity.status(HttpStatus.CREATED).body(newFixedTermDeposit);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newFixedTermDeposit);
     }
-     */
 }
