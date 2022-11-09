@@ -7,6 +7,7 @@ import com.alkemy.wallet.model.User;
 import com.alkemy.wallet.repository.IAccountRepository;
 import com.alkemy.wallet.repository.IUserRepository;
 import com.alkemy.wallet.service.IAccountService;
+import com.alkemy.wallet.util.CurrencyEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,29 +24,35 @@ public class AccountServiceImpl implements IAccountService {
     private AccountMapper accountMapper;
 
     @Override
-    public AccountDto createAccount(AccountDto request , Long idUser) {
+    public AccountDto createAccount(CurrencyEnum currency, long idUser) throws Exception {
 
         Optional<User> find = userRepository.findById(idUser);
 
         if (find.isPresent()){
 
-            if (accountRepository.queryAccountCurrencyUSD(idUser , request.getCurrency().getValor()) == null){
+            AccountDto request = transactionLimitCreateAccount(currency);
 
+            if (accountRepository.queryAccountCurrencyUSD(idUser , request.getCurrency()).isEmpty()){
+                System.out.println("-----USD");
                 Account entity = accountMapper.map(request);
+                entity.setUserId(find.get());
                 accountRepository.save(entity);
                 return accountMapper.map(entity);
 
-            } else if(accountRepository.queryAccountCurrencyARS(idUser , request.getCurrency().getValor()) == null){
-
+            } else if(accountRepository.queryAccountCurrencyARS(idUser , request.getCurrency()).isEmpty()){
+                System.out.println("-----ARS");
                 Account entity = accountMapper.map(request);
+                entity.setUserId(find.get());
                 accountRepository.save(entity);
                 return accountMapper.map(entity);
 
             } else {
+                //add exception
                 return null;
             }
 
         } else {
+            //add exception
             return null;
         }
 
@@ -53,26 +60,33 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public List<AccountDto> accountList(Long idUser) {
+    public List<AccountDto> accountList(long idUser) throws Exception{
 
         Optional<User> user = userRepository.findById(idUser);
         if (user.isPresent()) {
             List<Account> listAccount = accountRepository.accountList(idUser);
             return accountMapper.map(listAccount);
         } else {
+            //add exception
             return null;
         }
 
     }
 
-    @Override
-    public String myBalance(Long idUser) {
-        //method for return balance(ARS and USD) in account
-        Account findListARS= accountRepository.queryAccountCurrencyARS(idUser , "ARS");
-        Account findListUSD = accountRepository.queryAccountCurrencyUSD(idUser , "USD");
 
-        return "ARS: " + findListARS.getBalance() + "  USD: " + findListUSD.getBalance();
+    private AccountDto transactionLimitCreateAccount(CurrencyEnum currency){
+
+        AccountDto accountDto = new AccountDto();
+        accountDto.setBalance(0.0);
+        if (currency.getValor().equalsIgnoreCase("USD")){
+           accountDto.setTransactionLimit(1.000);
+           accountDto.setCurrency(currency);
+        } else if(currency.getValor().equalsIgnoreCase("ARS")){
+            accountDto.setTransactionLimit(300.000);
+            accountDto.setCurrency(currency);
+        }
+        return accountDto;
+
     }
-       //to do fixed term deposits
 
 }
