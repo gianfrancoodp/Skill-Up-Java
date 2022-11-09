@@ -31,5 +31,4 @@ public interface IAccountService {
 
     public boolean accountFunds(Transaction transaction);
 
-
 }

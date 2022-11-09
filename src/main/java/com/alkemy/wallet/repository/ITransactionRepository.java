@@ -10,6 +10,6 @@ import java.util.List;
 public interface ITransactionRepository extends JpaRepository<Transaction, Long> {
 
     public List<Transaction> findByAccount(Long id);
-    @Query("SELECT t FROM Transaction t WHERE t.account = id  AND t.transactionDate = CURRENT_TIMESTAMP")
+    @Query(value = "SELECT * FROM skill_up_java.transactions as t WHERE t.account_id=  id and t.transaction_date = current_date()", nativeQuery = true)
     public List<Transaction> findByAccountIdAndTransactionDate(@Param("id") Long id);
 }

@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("transactions")
+@RequestMapping
 public class TransactionController {
 
     @Autowired
-    private ITransactionService transactionService;
+    private ITransactionService service;
     @Autowired
     private IUserService userService;
     @Autowired
@@ -30,22 +30,22 @@ public class TransactionController {
      * @throws Exception
      */
     @PostMapping
-    @RequestMapping("/payment")
+    @RequestMapping("transactions/payment")
     public ResponseEntity<Object> payment(@RequestBody TransactionPaymentDto dto, @RequestHeader(name="Authorization") String token) throws Exception {
        String email = jwtUtils.extractUsername(token);
         Transaction transaction = new TransactionMapper().dtoToEntity(dto);
         transaction.setUser(userService.findByEmail(email));
-        TransactionPaymentDto result = new TransactionMapper().entityToDto(transactionService.savePayment(transaction));
+        TransactionPaymentDto result = new TransactionMapper().entityToDto(service.savePayment(transaction));
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
     @PostMapping
-    @RequestMapping("/deposit")
+    @RequestMapping("transactions/deposit")
     public ResponseEntity<Object> deposit(@RequestBody TransactionPaymentDto dto, @RequestHeader(name="Authorization") String token) throws Exception {
         String email = jwtUtils.extractUsername(token);
         Transaction transaction = new TransactionMapper().dtoToEntity(dto);
         transaction.setUser(userService.findByEmail(email));
-        TransactionPaymentDto result = new TransactionMapper().entityToDto(transactionService.saveDeposit(transaction));
+        TransactionPaymentDto result = new TransactionMapper().entityToDto(service.saveDeposit(transaction));
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 

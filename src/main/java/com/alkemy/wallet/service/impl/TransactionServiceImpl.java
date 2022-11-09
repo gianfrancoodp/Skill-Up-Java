@@ -21,6 +21,12 @@ public class TransactionServiceImpl implements ITransactionService {
     @Autowired
     private IUserService userService;
 
+    /**
+     * Method to persist a payment from an account in the database.
+     * @param transaction
+     * @return Transaction entity.
+     * @throws Exception
+     */
     @Override
     public Transaction savePayment(Transaction transaction) throws Exception {
         Transaction result;
@@ -35,6 +41,12 @@ public class TransactionServiceImpl implements ITransactionService {
         return result;
     }
 
+    /**
+     * Method to save a deposit into an account and persists it in the database.
+     * @param transaction
+     * @return Transaction Entity
+     * @throws Exception
+     */
     @Override
     public Transaction saveDeposit(Transaction transaction) throws Exception {
         Transaction result;
