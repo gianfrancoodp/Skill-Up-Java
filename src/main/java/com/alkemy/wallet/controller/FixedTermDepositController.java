@@ -1,7 +1,7 @@
 package com.alkemy.wallet.controller;
 
 import com.alkemy.wallet.dto.FixedTermDepositDto;
-import com.alkemy.wallet.repository.service.IFixedTermDepositService;
+import com.alkemy.wallet.service.IFixedTermDepositService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

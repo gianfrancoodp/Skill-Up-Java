@@ -1,4 +1,4 @@
-package com.alkemy.wallet.repository.service.impl;
+package com.alkemy.wallet.service.impl;
 
 import com.alkemy.wallet.dto.FixedTermDepositDto;
 import com.alkemy.wallet.exception.InsufficientFundForFixedTermDepositException;
@@ -11,7 +11,7 @@ import com.alkemy.wallet.model.UserEntity;
 import com.alkemy.wallet.repository.AccountRepository;
 import com.alkemy.wallet.repository.FixedTermDepositRepository;
 import com.alkemy.wallet.repository.UserRepository;
-import com.alkemy.wallet.repository.service.IFixedTermDepositService;
+import com.alkemy.wallet.service.IFixedTermDepositService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +43,7 @@ public class FixedTermDepositServiceImpl implements IFixedTermDepositService {
         ZonedDateTime dateAllowed = now.plusDays(+30);
         ZonedDateTime closingDate = ZonedDateTime.parse(dto.getClosingDate());
 
-        if (!account.getUserEntityId().equals(user.get().getId())) {
+        if (!account.getUserId().equals(user)) {
             throw new NonOwnAccountException("The selected account does not belong to you.");
         }
         if (account.getBalance() < dto.getAmount()){

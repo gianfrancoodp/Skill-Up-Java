@@ -1,4 +1,4 @@
-package com.alkemy.wallet.repository.service;
+package com.alkemy.wallet.service;
 
 import com.alkemy.wallet.dto.FixedTermDepositDto;
 
