@@ -16,7 +16,6 @@ public class FixedTermDepositMapper {
 
     @Autowired
     private FixedTermDepositRepository fixedTermDepositRepository;
-    @Autowired
     private ModelMapper modelMapper;
 
     // Mapper DTO to Entity

@@ -1,4 +1,4 @@
-package com.alkemy.wallet.service.impl;
+package com.alkemy.wallet.repository.service.impl;
 
 import com.alkemy.wallet.dto.FixedTermDepositDto;
 import com.alkemy.wallet.exception.InsufficientFundForFixedTermDepositException;
@@ -11,13 +11,15 @@ import com.alkemy.wallet.model.UserEntity;
 import com.alkemy.wallet.repository.AccountRepository;
 import com.alkemy.wallet.repository.FixedTermDepositRepository;
 import com.alkemy.wallet.repository.UserRepository;
-import com.alkemy.wallet.service.IFixedTermDepositService;
+import com.alkemy.wallet.repository.service.IFixedTermDepositService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class FixedTermDepositServiceImpl implements IFixedTermDepositService {
 
     @Autowired
