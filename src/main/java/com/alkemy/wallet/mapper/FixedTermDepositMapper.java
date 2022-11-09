@@ -1,8 +1,9 @@
 package com.alkemy.wallet.mapper;
 
-import com.alkemy.wallet.dto.FixedTermDepositDTO;
+import com.alkemy.wallet.dto.FixedTermDepositDto;
 import com.alkemy.wallet.model.FixedTermDeposit;
 import com.alkemy.wallet.repository.FixedTermDepositRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,31 +16,37 @@ public class FixedTermDepositMapper {
 
     @Autowired
     private FixedTermDepositRepository fixedTermDepositRepository;
+    @Autowired
+    private ModelMapper modelMapper;
 
     // Mapper DTO to Entity
     // This mapper is used when a new Fixed-Term Deposit is created
-    public FixedTermDeposit fixedTermDepositDTO2Entity(FixedTermDepositDTO dto){
+    public FixedTermDeposit fixedTermDepositDTO2Entity(FixedTermDepositDto dto, long accountId, long userId){
         FixedTermDeposit entity = new FixedTermDeposit();
         entity.setAmount(dto.getAmount());
-        entity.setUserId(dto.getUserId());
-        entity.setAccountId(dto.getAccountId());
-        entity.setInterest(dto.getInterest());
-        entity.setCreationDate(string2Timestamp(dto.getCreationDate()));
+        entity.setUserId(userId);
+        entity.setAccountId(accountId);
         entity.setClosingDate(string2Timestamp(dto.getClosingDate()));
+
+        // TODO: WITH MODEL MAPPER
+        // entity = modelMapper.map(dto, FixedTermDeposit.class);
         return entity;
     }
 
     // Mapper Entity to DTO
     // This mapper is used when the user wants to get a Fixed-Term Deposit
-    public FixedTermDepositDTO fixedTermDepositEntity2DTO(FixedTermDeposit entity){
-        FixedTermDepositDTO dto = new FixedTermDepositDTO();
-        dto.setId(entity.getId());
+    public FixedTermDepositDto fixedTermDepositEntity2DTO(FixedTermDeposit entity){
+        FixedTermDepositDto dto = modelMapper.map(entity, FixedTermDepositDto.class);
+
+
+        //TODO: SIN MODEL MAPPER
+        /*dto.setId(entity.getId());
         dto.setAmount(entity.getAmount());
-        dto.setUserId(entity.getUserId());
+        dto.setUserEntityId(entity.getUserEntityId());
         dto.setAccountId(entity.getAccountId());
         dto.setInterest(entity.getInterest());
         dto.setCreationDate(entity.getCreationDate().toString());
-        dto.setClosingDate(entity.getClosingDate().toString());
+        dto.setClosingDate(entity.getClosingDate().toString());*/
         return dto;
     }
 

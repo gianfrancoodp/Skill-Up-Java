@@ -33,4 +33,14 @@ public class ExceptionHandlerController {
         return new ResponseEntity<>(exception, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler
+    public ResponseEntity<Object> nonOwnAccountException(NonOwnAccountException e) {
+        ExceptionDetails exception = new ExceptionDetails(
+                e.getMessage(),
+                e,
+                HttpStatus.BAD_REQUEST,
+                ZonedDateTime.now(ZoneId.of("Z"))
+        );
+        return new ResponseEntity<>(exception, HttpStatus.BAD_REQUEST);
+    }
 }
