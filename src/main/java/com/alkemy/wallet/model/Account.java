@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 @Where(clause = "deleted=false")
 @NoArgsConstructor
 public class Account {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ACCOUNT_ID", nullable = false)
@@ -57,6 +56,5 @@ public class Account {
         this.userId = userId;
         this.creationDate = Timestamp.valueOf(LocalDateTime.now());
     }
-
 
 }

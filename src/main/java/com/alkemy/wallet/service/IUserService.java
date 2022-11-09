@@ -1,5 +1,7 @@
 package com.alkemy.wallet.service;
 
+
+import com.alkemy.wallet.dto.basicDTO.UserBasicDTO;
 import com.alkemy.wallet.model.UserEntity;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +21,8 @@ public interface IUserService {
      */
     public List<UserEntity> getAll();
 
-
     public UserEntity findByEmail(String email);
+
+    List<UserBasicDTO> getUsers();
 
 }

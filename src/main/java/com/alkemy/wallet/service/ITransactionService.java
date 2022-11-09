@@ -1,8 +1,10 @@
 package com.alkemy.wallet.service;
 
+
 import com.alkemy.wallet.model.Transaction;
 import org.springframework.stereotype.Service;
-
+import com.alkemy.wallet.dto.TransactionDto;
+import com.alkemy.wallet.dto.basicDTO.UserBasicDTO;
 import java.util.List;
 
 @Service
@@ -31,9 +33,15 @@ public interface ITransactionService {
      */
     public List<Transaction> findByAccount(Long id);
 
+    List<TransactionDto> listUserId(long id);
 
+    TransactionDto listDetail(long id);
+
+    List<UserBasicDTO> listUser();
+    TransactionDto edit(TransactionDto t);
 
     }
+
 
 
 
