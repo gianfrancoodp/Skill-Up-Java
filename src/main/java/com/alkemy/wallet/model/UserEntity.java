@@ -1,35 +1,37 @@
 package com.alkemy.wallet.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+
+
+import lombok.Data;
+
 import lombok.NoArgsConstructor;
 
-import lombok.Setter;
+
+
+import lombok.NoArgsConstructor;
+
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Size;
 import java.sql.Timestamp;
-import java.util.Collection;
-import java.util.Collections;
+import java.time.LocalDateTime;
+
+
 
 @Entity
+@Data
+
 @Table(name="USERS")
-@AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
-public class UserEntity implements UserDetails {
+public class User {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "FIRST_NAME", nullable = false)
@@ -38,23 +40,18 @@ public class UserEntity implements UserDetails {
     @Column(name = "LAST_NAME", nullable = false)
     private String lastName;
 
-    @Email
-    @Column(name = "USERNAME", nullable = false, unique=true)
-    private String username;
+    @Column(nullable = false, unique = true)
+    private String email;
 
-    @Size(min = 6)
-    @Column(name = "PASSWORD", nullable = false)
+    @Column(nullable = false)
     private String password;
 
     @ManyToOne
-    @JoinColumn(name = "ROLE_ID", insertable = false,updatable = false, referencedColumnName = "ID")
-    private Role role;
-
-    @Column(name = "ROLE_ID", nullable = false)
-    private Long roleId;
+    @JoinColumn(name = "ROLE_ID", referencedColumnName = "id")
+    private Role roleId;
 
 
-    @Column(name = "CREATED_DATE", updatable=false)
+    @Column(name = "CREATED_DATE", updatable = false)
     @CreationTimestamp
     private Timestamp creationDate;
     @UpdateTimestamp
@@ -64,43 +61,12 @@ public class UserEntity implements UserDetails {
     private boolean deleted = Boolean.FALSE;
 
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
-    }
+    public User(String firstName, String lastName, String email, String password) {
 
-    @Override
-    public String getUsername() {
-        return this.username;
-    }
-
-    @Override
-    public String getPassword() {
-        return this.password;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
-    public String getName(){
-        return this.firstName + " " + this.lastName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.creationDate = Timestamp.valueOf(LocalDateTime.now());
     }
 }
-

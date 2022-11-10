@@ -10,15 +10,20 @@ import com.alkemy.wallet.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import org.springframework.boot.util.LambdaSafe;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 @RestController
 @RequestMapping
 public class TransactionController {
+
 
     @Autowired
     private ITransactionService service;
@@ -27,9 +32,6 @@ public class TransactionController {
     @Autowired
     private JwtUtils jwtUtils;
 
-    public TransactionController(ITransactionService service) {
-        this.service = service;
-    }
 
 
     @GetMapping("/transactions/{userId}")
@@ -75,6 +77,7 @@ public class TransactionController {
             transaction.setDescription(description);
             return service.edit(transaction);
         } else throw new RuntimeException();
+
     }
 
 
@@ -106,3 +109,7 @@ public class TransactionController {
     }
 
 }
+
+    }
+}
+
