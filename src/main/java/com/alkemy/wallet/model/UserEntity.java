@@ -29,7 +29,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
-public class User {
+public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -61,7 +61,7 @@ public class User {
     private boolean deleted = Boolean.FALSE;
 
 
-    public User(String firstName, String lastName, String email, String password) {
+    public UserEntity(String firstName, String lastName, String email, String password) {
 
         this.firstName = firstName;
         this.lastName = lastName;
@@ -70,4 +70,3 @@ public class User {
         this.creationDate = Timestamp.valueOf(LocalDateTime.now());
     }
 }
-

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("role")
+@RequestMapping("/role")
 public class RoleController {
 
     @Autowired
@@ -33,7 +33,7 @@ public class RoleController {
     public ResponseEntity<Object> save(@RequestBody RoleDto roleDto) throws Exception {
 
         Role roleToSave = roleService.update(roleMapper.dtoToEntity(roleDto));
-        return ResponseEntity.status(HttpStatus.CREATED).body(roleToSave);
+        return ResponseEntity.status(HttpStatus.CREATED).body(roleDto);
     }
 
     /**

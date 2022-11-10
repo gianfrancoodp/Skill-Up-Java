@@ -2,13 +2,16 @@ package com.alkemy.wallet.dto;
 
 import com.alkemy.wallet.model.Transaction;
 import com.alkemy.wallet.util.Type;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
-@Getter
+@Data
 @NoArgsConstructor
 public class TransactionDto {
+
+    private long id;
     private double amount;
     private Type type;
     private String description;
