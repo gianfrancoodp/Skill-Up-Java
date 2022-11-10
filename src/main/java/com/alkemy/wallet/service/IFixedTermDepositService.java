@@ -1,18 +1,18 @@
 package com.alkemy.wallet.service;
 
-import com.alkemy.wallet.dto.FixedTermDepositDTO;
+import com.alkemy.wallet.dto.FixedTermDepositDto;
 
 import java.util.List;
 
 public interface IFixedTermDepositService {
 
-    FixedTermDepositDTO save(FixedTermDepositDTO fixedTermDepositDto);
+    FixedTermDepositDto save(FixedTermDepositDto fixedTermDepositDto, String userName);
 
-    List<FixedTermDepositDTO> getAll();
+    List<FixedTermDepositDto> getAll();
 
-    FixedTermDepositDTO getById(long id);
+    FixedTermDepositDto getById(long id);
 
-    FixedTermDepositDTO update(long id, FixedTermDepositDTO fixedTermDepositDto);
+    FixedTermDepositDto update(long id, FixedTermDepositDto fixedTermDepositDto);
 
     void delete(long id);
 

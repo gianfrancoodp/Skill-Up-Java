@@ -7,7 +7,6 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
 
@@ -42,4 +41,5 @@ public class UserMapper {
             entities.add(this.userDTO2Entity(dto));
         }
         return entities;
-    }}
+    }
+    }
