@@ -22,7 +22,9 @@ public class FixedTermDeposit {
 
     @ManyToOne
     @JoinColumn(name = "USER_ID",insertable = false,updatable = false)
-    private User user;
+
+    private UserEntity userEntity;
+
 
     @Column(name = "USER_ID", nullable = false)
     private Long userId;
@@ -35,7 +37,7 @@ public class FixedTermDeposit {
     private Long accountId;
 
     @Column(name = "INTEREST", nullable = false)
-    private double interest;
+    private double interest = 0.5;
 
     @CreationTimestamp
     @Column(name = "CREATION_DATE", updatable=false)
@@ -47,16 +49,15 @@ public class FixedTermDeposit {
 
     // Default Constructor
     public FixedTermDeposit(){
-
+        this.creationDate = Timestamp.valueOf(LocalDateTime.now());
     }
 
     // Custom Constructor
-    public FixedTermDeposit(long id, double amount, Long userId, Long accountId, double interest, Timestamp closingDate) {
+    public FixedTermDeposit(long id, double amount, Long userId, Long accountId, Timestamp closingDate) {
         this.id = id;
         this.amount = amount;
         this.userId = userId;
         this.accountId = accountId;
-        this.interest = interest;
         this.creationDate = Timestamp.valueOf(LocalDateTime.now());
         this.closingDate = closingDate;
     }

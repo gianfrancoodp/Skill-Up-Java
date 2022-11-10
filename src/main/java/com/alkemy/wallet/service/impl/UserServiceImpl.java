@@ -1,5 +1,7 @@
 package com.alkemy.wallet.service.impl;
 
+import com.alkemy.wallet.dto.basicDTO.UserBasicDTO;
+import com.alkemy.wallet.mapper.UserMapper;
 import com.alkemy.wallet.model.UserEntity;
 import com.alkemy.wallet.repository.IUserRepository;
 import com.alkemy.wallet.service.IUserService;
@@ -14,6 +16,8 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     private IUserRepository userRepository;
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public void delete(Long id) throws Exception {
@@ -29,4 +33,19 @@ public class UserServiceImpl implements IUserService {
     public List<UserEntity> getAll() {
         return userRepository.findAll();
     }
+
+    @Override
+    public UserEntity findByEmail(String email) {
+        return userRepository.findByUsername(email);
+    }
+
+    @Override
+    public List<UserBasicDTO> getUsers() {
+        List<UserEntity> entities = userRepository.findAll();
+        List <UserBasicDTO> userBasicDTO = userMapper.userEntity2DTOList(entities);
+        return userBasicDTO;
+    }
+
+
+
 }

@@ -3,7 +3,7 @@ package com.alkemy.wallet.dto;
 import lombok.Data;
 
 @Data
-public class FixedTermDepositDTO {
+public class FixedTermDepositDto {
 
     private long id;
     private double amount;

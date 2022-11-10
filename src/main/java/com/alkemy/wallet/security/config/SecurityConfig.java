@@ -2,7 +2,6 @@ package com.alkemy.wallet.security.config;
 
 import com.alkemy.wallet.security.filter.JwtRequestFilter;
 import com.alkemy.wallet.security.service.UserDetailsCustomService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
