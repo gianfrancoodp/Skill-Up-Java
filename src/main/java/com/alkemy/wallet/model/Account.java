@@ -2,9 +2,7 @@ package com.alkemy.wallet.model;
 
 import com.alkemy.wallet.util.CurrencyEnum;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -38,7 +36,7 @@ public class Account {
 
     @ManyToOne
     @JoinColumn(name = "USER_ID", insertable = false, updatable = false, nullable = false)
-    private User userId;
+    private UserEntity userId;
 
     @Column(name = "CREATED_DATE", updatable=false)
     @CreationTimestamp
@@ -51,7 +49,7 @@ public class Account {
     private boolean deleted = Boolean.FALSE;
 
 
-    public Account(CurrencyEnum currency, Double transactionLimit, Double balance, User userId, Timestamp creationDate) {
+    public Account(CurrencyEnum currency, Double transactionLimit, Double balance, UserEntity userId, Timestamp creationDate) {
         this.currency = currency;
         this.transactionLimit = transactionLimit;
         this.balance = balance;
