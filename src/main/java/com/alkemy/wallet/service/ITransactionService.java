@@ -1,7 +1,7 @@
 package com.alkemy.wallet.service;
 
-
 import com.alkemy.wallet.model.Transaction;
+import com.alkemy.wallet.util.Type;
 import org.springframework.stereotype.Service;
 import com.alkemy.wallet.dto.TransactionDto;
 import com.alkemy.wallet.dto.basicDTO.UserBasicDTO;
@@ -33,6 +33,7 @@ public interface ITransactionService {
      */
     public List<Transaction> findByAccount(Long id);
 
+
     List<TransactionDto> listUserId(long id);
 
     TransactionDto listDetail(long id);
@@ -40,8 +41,7 @@ public interface ITransactionService {
     List<UserBasicDTO> listUser();
     TransactionDto edit(TransactionDto t);
 
+    TransactionDto sendUsd(long accountId, long userId, double amount, long accountToId, Type type) throws Exception;
+
     }
-
-
-
 

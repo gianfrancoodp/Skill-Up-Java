@@ -2,7 +2,7 @@ package com.alkemy.wallet.mapper;
 
 import com.alkemy.wallet.dto.FixedTermDepositDto;
 import com.alkemy.wallet.model.FixedTermDeposit;
-import com.alkemy.wallet.repository.FixedTermDepositRepository;
+import com.alkemy.wallet.repository.IFixedTermDepositRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,7 +15,7 @@ import java.util.Date;
 public class FixedTermDepositMapper {
 
     @Autowired
-    private FixedTermDepositRepository fixedTermDepositRepository;
+    private IFixedTermDepositRepository fixedTermDepositRepository;
     private ModelMapper modelMapper;
 
     // Mapper DTO to Entity

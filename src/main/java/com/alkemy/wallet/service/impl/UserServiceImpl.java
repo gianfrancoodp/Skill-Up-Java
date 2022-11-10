@@ -46,6 +46,10 @@ public class UserServiceImpl implements IUserService {
         return userBasicDTO;
     }
 
+    @Override
+    public UserEntity findById(long userId) throws Exception {
+        return userRepository.findById(userId).orElseThrow(()-> new Exception("User not found"));
+    }
 
 
 }

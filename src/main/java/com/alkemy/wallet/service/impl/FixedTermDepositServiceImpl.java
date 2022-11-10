@@ -8,8 +8,8 @@ import com.alkemy.wallet.mapper.FixedTermDepositMapper;
 import com.alkemy.wallet.model.Account;
 import com.alkemy.wallet.model.FixedTermDeposit;
 import com.alkemy.wallet.model.UserEntity;
-import com.alkemy.wallet.repository.FixedTermDepositRepository;
 import com.alkemy.wallet.repository.IAccountRepository;
+import com.alkemy.wallet.repository.IFixedTermDepositRepository;
 import com.alkemy.wallet.repository.IUserRepository;
 import com.alkemy.wallet.service.IFixedTermDepositService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +23,12 @@ import java.util.Optional;
 public class FixedTermDepositServiceImpl implements IFixedTermDepositService {
 
     @Autowired
+    private IFixedTermDepositRepository fixedTermDepositRepository;
     private FixedTermDepositMapper fixedTermDepositMapper;
-    @Autowired
-    private FixedTermDepositRepository fixedTermDepositRepository;
     @Autowired
     private IUserRepository userRepository;
     @Autowired
     private IAccountRepository accountRepository;
-
     @Override
     public FixedTermDepositDto save(FixedTermDepositDto dto, String userName) {
         // First, is necessary to find the user with the "UserName" input
@@ -68,6 +66,10 @@ public class FixedTermDepositServiceImpl implements IFixedTermDepositService {
     @Override
     public FixedTermDepositDto getById(long id) {
         return null;
+    }
+    @Override
+    public List<FixedTermDeposit> findAll() {
+        return fixedTermDepositRepository.findAll();
     }
 
     @Override

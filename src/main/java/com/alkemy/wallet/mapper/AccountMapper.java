@@ -2,9 +2,6 @@ package com.alkemy.wallet.mapper;
 
 import com.alkemy.wallet.dto.AccountDto;
 import com.alkemy.wallet.model.Account;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
