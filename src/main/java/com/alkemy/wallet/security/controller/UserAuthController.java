@@ -29,18 +29,16 @@ public class UserAuthController {
     private IUserAuthService userAuthService;
      private AuthenticationManager authenticationManager;
     private JwtUtils jwtUtils;
-    private PasswordEncoder passwordEncoder;
+    
 
     @Autowired
     public UserAuthController(
             IUserAuthService userAuthService,
-            AuthenticationManager authenticationManager,
-            PasswordEncoder passwordEncoder,
+            AuthenticationManager authenticationManager,           
             JwtUtils jwtUtils) {
         this.userAuthService = userAuthService;
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/register")
