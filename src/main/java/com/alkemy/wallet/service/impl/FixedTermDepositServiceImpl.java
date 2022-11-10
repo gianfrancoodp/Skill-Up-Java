@@ -8,9 +8,9 @@ import com.alkemy.wallet.mapper.FixedTermDepositMapper;
 import com.alkemy.wallet.model.Account;
 import com.alkemy.wallet.model.FixedTermDeposit;
 import com.alkemy.wallet.model.UserEntity;
-import com.alkemy.wallet.repository.AccountRepository;
 import com.alkemy.wallet.repository.FixedTermDepositRepository;
-import com.alkemy.wallet.repository.UserRepository;
+import com.alkemy.wallet.repository.IAccountRepository;
+import com.alkemy.wallet.repository.IUserRepository;
 import com.alkemy.wallet.service.IFixedTermDepositService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,9 +27,9 @@ public class FixedTermDepositServiceImpl implements IFixedTermDepositService {
     @Autowired
     private FixedTermDepositRepository fixedTermDepositRepository;
     @Autowired
-    private UserRepository userRepository;
+    private IUserRepository userRepository;
     @Autowired
-    private AccountRepository accountRepository;
+    private IAccountRepository accountRepository;
 
     @Override
     public FixedTermDepositDto save(FixedTermDepositDto dto, String userName) {

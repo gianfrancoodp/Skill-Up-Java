@@ -3,12 +3,18 @@ package com.alkemy.wallet.service;
 import com.alkemy.wallet.model.Account;
 import com.alkemy.wallet.model.Transaction;
 import org.springframework.stereotype.Service;
-
+import com.alkemy.wallet.dto.AccountDto;
+import com.alkemy.wallet.util.CurrencyEnum;
 import java.util.List;
 import java.util.Optional;
 
-@Service
+import java.util.List;
+
 public interface IAccountService {
+
+    public AccountDto createAccount(CurrencyEnum currency, long idUser) throws Exception;
+
+    public List<AccountDto> accountList(long idUser) throws Exception;
 
     public List<Account> findAccountByUserId(Long id) throws Exception;
 
