@@ -27,46 +27,54 @@ public class TransactionController {
     @Autowired
     private JwtUtils jwtUtils;
 
-    public TransactionController( ITransactionService service) {
+    public TransactionController(ITransactionService service) {
         this.service = service;
     }
 
 
-    @GetMapping("/transactions/:userId{userId}")
+    @GetMapping("/transactions/{userId}")
     public List<TransactionDto> listTransactions(@PathVariable("userId") long id) {
         return service.listUserId(id);
     }
 
     @GetMapping("/transactions/:id{id}")
     public TransactionDto transactionDetail(@PathVariable("id") long id) {
-        String principal = SecurityContextHolder.getContext().getAuthentication().getName();
+        String principal = SecurityContextHolder.getContext().getAuthentication().getName().toString();
         TransactionDto transaction = new TransactionDto();
-        for (int i=0; i< service.listUser().size(); i++){
-            if (service.listUser().get(i).getEmail().equals(principal)){
-                transaction = service.listDetail(id);
+        long idUser = 0;
+        for (int i = 0; i < service.listUser().size(); i++) {
+            if (service.listUser().get(i).getEmail().toString().equals(principal)) {
+                idUser = service.listUser().get(i).getId();
             }
         }
-        if (transaction != null){
-            return transaction;}
-        else {
-            throw new RuntimeException();
+        List<TransactionDto> listTransactions = service.listUserId(idUser);
+        for (int j = 0; j < listTransactions.size(); j++) {
+            if (listTransactions.get(j).getId() == id) {
+                transaction = listTransactions.get(j);
+            }
         }
+        if (transaction != null) {
+
+            return transaction;
+        } else throw new RuntimeException();
 
     }
 
     @PatchMapping("/transactions/:id{id}")
-    public TransactionDto editTransaction(@PathVariable("id") long id,@RequestBody String description) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        TransactionDto transaction = new TransactionDto();
+    public TransactionDto editTransaction(@PathVariable("id") long id, @RequestBody String description) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getName();
+        TransactionDto transaction = service.listDetail(id);
+        long idUser = 0;
         for (int i = 0; i < service.listUser().size(); i++) {
             if (service.listUser().get(i).getEmail().equals(principal)) {
-                transaction = service.listDetail(id);
-                transaction.setDescription(description);
-                return service.edit(transaction);
+                idUser = service.listUser().get(i).getId();
             }
-
         }
-        return transaction;
+        List<TransactionDto> listTransactions = service.listUserId(idUser);
+        if (listTransactions.contains(transaction)) {
+            transaction.setDescription(description);
+            return service.edit(transaction);
+        } else throw new RuntimeException();
     }
 
 
