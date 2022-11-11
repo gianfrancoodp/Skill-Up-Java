@@ -29,8 +29,7 @@ import java.util.List;
 @Table(name="USERS")
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
 public class UserEntity implements UserDetails {
