@@ -1,6 +1,10 @@
 package com.alkemy.wallet.controller;
 
+
 import com.alkemy.wallet.model.UserEntity;
+
+import com.alkemy.wallet.dto.basicDTO.UserBasicDTO;
+
 import com.alkemy.wallet.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,18 +35,17 @@ public class UserController {
         return new ResponseEntity<List<UserEntity>>(answer, HttpStatus.OK);
     }
 
-    /**
-     * This method deletes an User from the database (Soft delete)
-     *  curl --location --request DELETE 'http://localhost:8081/users/123'
-     *  @param id id number of the user to be deleted.
-     *  @return ok if it´s succesfully deleted, error if it´s not deleted
-     *  @throws Exception
-     */
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id) throws Exception{
+    @GetMapping("/users")
+    public List<UserBasicDTO> getUsers() {
+        return userService.getUsers();}
 
+    @GetMapping("accounts/userId")
+
+
+    @DeleteMapping("users/{id}")
+    public ResponseEntity<String> deleteUserById (@PathVariable Long id) throws Exception {
         userService.delete(id);
-
         return ResponseEntity.ok().build();
-    }
 }
+
+    }

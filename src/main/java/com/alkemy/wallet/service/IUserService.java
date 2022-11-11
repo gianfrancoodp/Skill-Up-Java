@@ -1,5 +1,8 @@
 package com.alkemy.wallet.service;
 
+
+
+import com.alkemy.wallet.dto.basicDTO.UserBasicDTO;
 import com.alkemy.wallet.model.UserEntity;
 
 import java.util.List;
@@ -16,4 +19,10 @@ public interface IUserService {
      * @return List of Users
      */
     public List<UserEntity> getAll();
+
+    public UserEntity findByEmail(String email);
+
+    List<UserBasicDTO> getUsers();
+
+    UserEntity findById(long userId) throws Exception;
 }

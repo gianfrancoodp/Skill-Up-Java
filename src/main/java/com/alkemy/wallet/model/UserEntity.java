@@ -1,18 +1,22 @@
 package com.alkemy.wallet.model;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
+
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
@@ -57,6 +61,7 @@ public class UserEntity implements UserDetails {
 
 
     @Column(name = "CREATED_DATE", updatable=false)
+
     @CreationTimestamp
     private Timestamp creationDate;
     @UpdateTimestamp

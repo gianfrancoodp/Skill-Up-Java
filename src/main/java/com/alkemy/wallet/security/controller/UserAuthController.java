@@ -51,6 +51,7 @@ public class UserAuthController {
         UserDetails userDetails;
         try{
             Authentication auth = authenticationManager.authenticate(
+
                     new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword(), Collections.emptyList())
             );
             userDetails = (UserDetails) auth.getPrincipal();
