@@ -19,6 +19,7 @@ import com.alkemy.wallet.service.IUserService;
 import com.alkemy.wallet.util.Type;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,12 +37,19 @@ public class AccountServiceImpl implements IAccountService {
     private IUserRepository userRepository;
     @Autowired
     private AccountMapper accountMapper;
-    @Autowired
+
     private IUserService userService;
     @Autowired
     private ITransactionRepository transactionRepository;
-    @Autowired
+
     private IFixedTermDepositService iFixedTermDepositService;
+
+    @Autowired
+    public AccountServiceImpl(@Lazy IFixedTermDepositService iFixedTermDepositService,
+                              @Lazy IUserService userService) {
+        this.iFixedTermDepositService = iFixedTermDepositService;
+        this.userService = userService;
+    }
 
     @Override
     @Transactional

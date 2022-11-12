@@ -3,6 +3,7 @@ package com.alkemy.wallet.controller;
 import com.alkemy.wallet.model.UserEntity;
 import com.alkemy.wallet.service.IAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,8 +16,12 @@ import java.util.List;
 
 @RestController
 public class AccountController {
-    @Autowired
     private IAccountService accountService;
+
+    @Autowired
+    public AccountController(@Lazy IAccountService accountService) {
+        this.accountService = accountService;
+    }
 
     @GetMapping("/account/balance")
     public ResponseEntity<?> getAccountsBalance(@RequestParam UserEntity userId) throws Exception {
