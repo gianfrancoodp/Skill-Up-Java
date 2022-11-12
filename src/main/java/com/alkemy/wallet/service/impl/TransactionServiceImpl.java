@@ -15,6 +15,8 @@ import com.alkemy.wallet.service.IUserService;
 import com.alkemy.wallet.util.CurrencyEnum;
 import com.alkemy.wallet.util.Type;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -204,6 +206,16 @@ public class TransactionServiceImpl implements ITransactionService {
 
         return repo.findByAccount(id);
 
+    }
+
+    @Override
+    public Page<Transaction> findByUser(Long userId, Pageable pageable) throws Exception {
+        try {
+            Page<Transaction> accounts = repo.findByUserId(userId, pageable);
+            return accounts;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

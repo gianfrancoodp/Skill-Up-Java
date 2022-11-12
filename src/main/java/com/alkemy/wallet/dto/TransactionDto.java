@@ -3,13 +3,13 @@ package com.alkemy.wallet.dto;
 import com.alkemy.wallet.model.Transaction;
 import com.alkemy.wallet.util.Type;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.sql.Timestamp;
 @Data
 @NoArgsConstructor
-public class TransactionDto {
+public class TransactionDto extends RepresentationModel<TransactionDto> {
 
     private long id;
     private double amount;

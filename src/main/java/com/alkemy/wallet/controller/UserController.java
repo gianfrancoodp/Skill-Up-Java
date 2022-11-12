@@ -70,7 +70,7 @@ public class UserController {
             PagedModel<UserBasicDTO> usersDto = pagedResourcesAssembler.toModel(users, userAssembler);
             if (pageRequest.hasPrevious())
                 usersDto.add(linkTo(methodOn(AccountController.class).getAll(pageRequest.getPageNumber() - 1)).withSelfRel());
-            if (pageRequest.getPageNumber() < users.getTotalPages()) {
+            if (pageRequest.getPageNumber() < users.getTotalPages()-1) {
                 usersDto.add(linkTo(methodOn(AccountController.class).getAll(pageRequest.getPageNumber() + 1)).withSelfRel());
             }
 

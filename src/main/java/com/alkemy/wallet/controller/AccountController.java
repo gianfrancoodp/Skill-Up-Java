@@ -55,7 +55,7 @@ public class AccountController {
             PagedModel<AccountDto> accountsDto = pagedResourcesAssembler.toModel(accounts, accountAssembler);
             if(pageRequest.hasPrevious())
                 accountsDto.add(linkTo(methodOn(AccountController.class).getAll(pageRequest.getPageNumber()-1)).withSelfRel());
-            if (pageRequest.getPageNumber() < accounts.getTotalPages()) {
+            if (pageRequest.getPageNumber() < accounts.getTotalPages()-1) {
                 accountsDto.add(linkTo(methodOn(AccountController.class).getAll(pageRequest.getPageNumber()+1)).withSelfRel());
             }
 
