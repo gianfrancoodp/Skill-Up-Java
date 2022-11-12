@@ -47,6 +47,9 @@ public class FixedTermDeposit {
     @Column(name = "CLOSING_DATE", updatable=false)
     private Timestamp closingDate;
 
+    @Column(name = "ACTIVE")
+    private boolean active = true;
+
     // Default Constructor
     public FixedTermDeposit(){
         this.creationDate = Timestamp.valueOf(LocalDateTime.now());

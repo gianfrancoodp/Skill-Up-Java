@@ -23,10 +23,9 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@Configuration
+
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
-
 public class SecurityConfig {
     private UserAuthService userAuthService;
     private JwtRequestFilter jwtRequestFilter;

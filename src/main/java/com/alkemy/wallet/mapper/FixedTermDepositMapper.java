@@ -9,7 +9,9 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class FixedTermDepositMapper {
@@ -26,7 +28,6 @@ public class FixedTermDepositMapper {
         entity.setUserId(userId);
         entity.setAccountId(accountId);
         entity.setClosingDate(string2Timestamp(dto.getClosingDate()));
-
         // TODO: WITH MODEL MAPPER
         // entity = modelMapper.map(dto, FixedTermDeposit.class);
         return entity;
@@ -36,8 +37,6 @@ public class FixedTermDepositMapper {
     // This mapper is used when the user wants to get a Fixed-Term Deposit
     public FixedTermDepositDto fixedTermDepositEntity2DTO(FixedTermDeposit entity){
         FixedTermDepositDto dto = modelMapper.map(entity, FixedTermDepositDto.class);
-
-
         //TODO: SIN MODEL MAPPER
         /*dto.setId(entity.getId());
         dto.setAmount(entity.getAmount());
@@ -47,6 +46,14 @@ public class FixedTermDepositMapper {
         dto.setCreationDate(entity.getCreationDate().toString());
         dto.setClosingDate(entity.getClosingDate().toString());*/
         return dto;
+    }
+
+    public List<FixedTermDepositDto> fixedTermDepositEntityList2DTOList(List<FixedTermDeposit> entities) {
+        List<FixedTermDepositDto> dtos = new ArrayList<>();
+        for (FixedTermDeposit entity : entities) {
+            dtos.add(this.fixedTermDepositEntity2DTO(entity));
+        }
+        return dtos;
     }
 
     // Method to convert a String to Timestamp format

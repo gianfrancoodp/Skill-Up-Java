@@ -3,6 +3,7 @@ package com.alkemy.wallet.service.impl;
 
 
 import com.alkemy.wallet.dto.AccountDto;
+import com.alkemy.wallet.exception.UserNotFoundException;
 import com.alkemy.wallet.mapper.AccountMapper;
 import com.alkemy.wallet.model.Account;
 import com.alkemy.wallet.model.FixedTermDeposit;
@@ -19,8 +20,10 @@ import com.alkemy.wallet.service.IUserService;
 import com.alkemy.wallet.util.Type;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,14 +38,22 @@ public class AccountServiceImpl implements IAccountService {
     private IUserRepository userRepository;
     @Autowired
     private AccountMapper accountMapper;
-    @Autowired
+
     private IUserService userService;
     @Autowired
     private ITransactionRepository transactionRepository;
-    @Autowired
+
     private IFixedTermDepositService iFixedTermDepositService;
 
+    @Autowired
+    public AccountServiceImpl(@Lazy IFixedTermDepositService iFixedTermDepositService,
+                              @Lazy IUserService userService) {
+        this.iFixedTermDepositService = iFixedTermDepositService;
+        this.userService = userService;
+    }
+
     @Override
+    @Transactional
     public AccountDto createAccount(CurrencyEnum currency, long idUser) throws Exception {
 
         Optional<UserEntity> find = userRepository.findById(idUser);
@@ -132,6 +143,7 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<AccountDto> accountList(long idUser) throws Exception {
 
         Optional<UserEntity> user = userRepository.findById(idUser);
@@ -168,6 +180,33 @@ public class AccountServiceImpl implements IAccountService {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    @Transactional
+    public AccountDto updateAccount(Long idUser ,AccountDto accountDto) throws Exception {
+        Optional<UserEntity> find = userRepository.findById(idUser);
+        if (find.isPresent()) {
+            if (!find.get().isDeleted()) {
+                if (accountDto.getCurrency().getValor().equals("ARS")) {
+                    Account entity = accountRepository.queryAccountCurrencyARS(idUser , accountDto.getCurrency()).get();
+                    entity.setTransactionLimit(accountDto.getTransactionLimit());
+                    accountRepository.save(entity);
+                    return accountMapper.map(entity);
+                } else {
+                    Account entity = accountRepository.queryAccountCurrencyUSD(idUser , accountDto.getCurrency()).get();
+                    entity.setTransactionLimit(accountDto.getTransactionLimit());
+                    accountRepository.save(entity);
+                    return accountMapper.map(entity);
+                }
+            } else {
+                new UserNotFoundException("The User with ID " +idUser+ " was deleted.");
+            }
+        } else {
+            new UserNotFoundException("There is no user with that ID!");
+        }
+        return null;
+    }
+
     @Override
     public Account findById(long id) throws ChangeSetPersister.NotFoundException {
         return accountRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
