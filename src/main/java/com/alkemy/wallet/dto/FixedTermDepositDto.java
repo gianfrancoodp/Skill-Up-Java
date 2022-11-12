@@ -12,5 +12,6 @@ public class FixedTermDepositDto {
     private double interest;
     private String creationDate;
     private String closingDate;
+    private boolean active;
 
 }
