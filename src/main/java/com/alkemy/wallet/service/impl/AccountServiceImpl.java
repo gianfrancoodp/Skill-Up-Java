@@ -3,6 +3,7 @@ package com.alkemy.wallet.service.impl;
 
 
 import com.alkemy.wallet.dto.AccountDto;
+import com.alkemy.wallet.exception.UserNotFoundException;
 import com.alkemy.wallet.mapper.AccountMapper;
 import com.alkemy.wallet.model.Account;
 import com.alkemy.wallet.model.FixedTermDeposit;
@@ -184,9 +185,9 @@ public class AccountServiceImpl implements IAccountService {
     @Transactional
     public AccountDto updateAccount(Long idUser ,AccountDto accountDto) throws Exception {
         Optional<UserEntity> find = userRepository.findById(idUser);
-        if (find.isPresent()){
-            if (!find.get().isDeleted()){
-                if (accountDto.getCurrency().getValor().equals("ARS")){
+        if (find.isPresent()) {
+            if (!find.get().isDeleted()) {
+                if (accountDto.getCurrency().getValor().equals("ARS")) {
                     Account entity = accountRepository.queryAccountCurrencyARS(idUser , accountDto.getCurrency()).get();
                     entity.setTransactionLimit(accountDto.getTransactionLimit());
                     accountRepository.save(entity);
@@ -198,10 +199,10 @@ public class AccountServiceImpl implements IAccountService {
                     return accountMapper.map(entity);
                 }
             } else {
-                //Exception
+                new UserNotFoundException("The User with ID " +idUser+ " was deleted.");
             }
         } else {
-            //exception
+            new UserNotFoundException("There is no user with that ID!");
         }
         return null;
     }
