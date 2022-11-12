@@ -18,6 +18,6 @@ public interface IFixedTermDepositService {
 
     List<FixedTermDeposit> findAll();
 
-    FixedTermDepositDto getById(long id);
+    FixedTermDepositDto getById(long id) throws Exception;
 
 }
