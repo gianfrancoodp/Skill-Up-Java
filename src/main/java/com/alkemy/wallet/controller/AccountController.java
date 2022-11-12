@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,12 +23,16 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 public class AccountController {
-    @Autowired
     private IAccountService accountService;
     @Autowired
     private AccountAssembler accountAssembler;
     @Autowired
     private PagedResourcesAssembler<Account> pagedResourcesAssembler;
+
+    @Autowired
+    public AccountController(@Lazy IAccountService accountService) {
+        this.accountService = accountService;
+    }
 
     @GetMapping("/account/balance")
     public ResponseEntity<?> getAccountsBalance(@RequestParam UserEntity userId) throws Exception {
@@ -43,6 +48,12 @@ public class AccountController {
     public ResponseEntity<List<AccountDto>> listAccounts(@PathVariable Long idUser) throws Exception {
         return ResponseEntity.ok().body(accountService.accountList(idUser));
     }
+
+    @PatchMapping("/accounts({idUser}")
+    public ResponseEntity<AccountDto> updateAccount(@PathVariable Long idUser ,@RequestBody AccountDto accountDto) throws Exception {
+        return ResponseEntity.ok().body(accountService.updateAccount(idUser,accountDto));
+    }
+
 
     @GetMapping("/accounts")
     public ResponseEntity<PagedModel<AccountDto>> getAll(@RequestParam(required = false) Integer pageQuery){

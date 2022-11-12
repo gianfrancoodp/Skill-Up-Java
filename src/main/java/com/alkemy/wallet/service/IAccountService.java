@@ -43,6 +43,8 @@ public interface IAccountService {
 
     public boolean accountFunds(Transaction transaction);
 
+    public AccountDto updateAccount(Long idUser , AccountDto accountDto) throws Exception;
+
     public Page<Account> findAll(Pageable pageable) throws Exception;
 
 }
