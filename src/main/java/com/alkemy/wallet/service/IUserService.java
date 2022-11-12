@@ -1,15 +1,14 @@
 package com.alkemy.wallet.service;
 
 
+
 import com.alkemy.wallet.dto.basicDTO.UserBasicDTO;
 
 import com.alkemy.wallet.model.UserEntity;
 
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public interface IUserService {
     /**
      * Delete an User using his/her Id number.
@@ -27,4 +26,9 @@ public interface IUserService {
 
     List<UserBasicDTO> getUsers();
 
+    UserEntity findById(long userId) throws Exception;
+
+    UserDto getUserAll(long id);
+
+    UserDto update(Long id, UserDto userBasicDTO);
 }

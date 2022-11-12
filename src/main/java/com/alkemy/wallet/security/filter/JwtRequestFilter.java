@@ -1,13 +1,17 @@
 package com.alkemy.wallet.security.filter;
 
-import com.alkemy.wallet.security.service.UserDetailsCustomService;
+
+import com.alkemy.wallet.security.service.Impl.UserAuthService;
+
 import com.alkemy.wallet.security.util.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -21,11 +25,16 @@ import java.io.IOException;
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Autowired
-    private UserDetailsCustomService userDetailsCustomService;
+    private UserAuthService userAuthService;
+
     @Autowired
     private JwtUtils jwtUtils;
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -41,14 +50,16 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
 
         if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
-            UserDetails userDetails = this.userDetailsCustomService.loadUserByUsername(username);
+
+            UserDetails userDetails = this.userAuthService.loadUserByUsername(username);
 
             if(jwtUtils.validateToken(jwt, userDetails)){
+
                 UsernamePasswordAuthenticationToken authReq =
-                        new UsernamePasswordAuthenticationToken(userDetails.getUsername(), userDetails.getPassword());
-                Authentication auth = authenticationManager.authenticate(authReq);
-                //Set auth in context
-                SecurityContextHolder.getContext().setAuthentication(auth);
+                        new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null,userDetails.getAuthorities());
+
+                SecurityContextHolder.getContext().setAuthentication(authReq);
+
             }
         }
 

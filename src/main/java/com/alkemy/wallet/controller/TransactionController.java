@@ -1,22 +1,23 @@
 package com.alkemy.wallet.controller;
 
+import com.alkemy.wallet.service.ITransactionService;
+import com.alkemy.wallet.util.Type;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import com.alkemy.wallet.dto.TransactionDto;
 import com.alkemy.wallet.dto.TransactionPaymentDto;
 import com.alkemy.wallet.mapper.TransactionMapper;
 import com.alkemy.wallet.model.Transaction;
 import com.alkemy.wallet.security.util.JwtUtils;
-import com.alkemy.wallet.service.ITransactionService;
 import com.alkemy.wallet.service.IUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
-import org.springframework.boot.util.LambdaSafe;
-
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -108,5 +109,15 @@ public class TransactionController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
-}
+    @PostMapping("transactions/sendusd")
+    @Transactional
+    public ResponseEntity<?> sendUsd(@RequestParam long accountFromId,
+                                     @RequestParam long userId,
+                                     @RequestParam double amount,
+                                     @RequestParam long accountToId,
+                                     @RequestParam Type type) throws Exception {
 
+        return ResponseEntity.ok().body(service.sendUsd(accountFromId, userId, amount, accountToId, type));
+    }
+
+}

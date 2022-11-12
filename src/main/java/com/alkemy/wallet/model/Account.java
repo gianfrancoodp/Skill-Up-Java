@@ -35,14 +35,11 @@ public class Account {
     private Double balance;
 
     @ManyToOne
-<<<<<<< HEAD
-    @JoinColumn(name = "USER_ID", insertable = false, updatable = false, nullable = false)
-    private User Id;
-=======
+
     @JoinColumn(name = "USER_ID", nullable = false)
 
     private UserEntity userId;
->>>>>>> 76c78555927b134961842d448112af759720603d
+
 
     @Column(name = "CREATED_DATE", updatable=false)
     @CreationTimestamp
@@ -59,7 +56,7 @@ public class Account {
         this.currency = currency;
         this.transactionLimit = transactionLimit;
         this.balance = balance;
-        this.Id = userId;
+        this.userId = userId;
         this.creationDate = Timestamp.valueOf(LocalDateTime.now());
     }
 

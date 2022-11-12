@@ -2,13 +2,13 @@ package com.alkemy.wallet.service;
 
 import com.alkemy.wallet.model.Account;
 import com.alkemy.wallet.model.Transaction;
-import org.springframework.stereotype.Service;
+import com.alkemy.wallet.model.UserEntity;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import com.alkemy.wallet.dto.AccountDto;
 import com.alkemy.wallet.util.CurrencyEnum;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-
-import java.util.List;
 
 public interface IAccountService {
 
@@ -31,10 +31,15 @@ public interface IAccountService {
 
     public boolean limitTransactions(Transaction transaction);
 
+    Account findById(long id) throws ChangeSetPersister.NotFoundException;
+    List<Account> findAll();
 
+    Map<String, Double> getAccountsBalance(UserEntity userId) throws Exception;
 
     public void accountBalance(Transaction transaction) throws Exception;
 
     public boolean accountFunds(Transaction transaction);
+
+    public AccountDto updateAccount(Long idUser , AccountDto accountDto) throws Exception;
 
 }
