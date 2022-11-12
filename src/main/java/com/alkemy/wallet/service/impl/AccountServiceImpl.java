@@ -21,6 +21,7 @@ import com.alkemy.wallet.util.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +44,7 @@ public class AccountServiceImpl implements IAccountService {
     private IFixedTermDepositService iFixedTermDepositService;
 
     @Override
+    @Transactional
     public AccountDto createAccount(CurrencyEnum currency, long idUser) throws Exception {
 
         Optional<UserEntity> find = userRepository.findById(idUser);
@@ -132,6 +134,7 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<AccountDto> accountList(long idUser) throws Exception {
 
         Optional<UserEntity> user = userRepository.findById(idUser);
@@ -168,6 +171,33 @@ public class AccountServiceImpl implements IAccountService {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    @Transactional
+    public AccountDto updateAccount(Long idUser ,AccountDto accountDto) throws Exception {
+        Optional<UserEntity> find = userRepository.findById(idUser);
+        if (find.isPresent()){
+            if (!find.get().isDeleted()){
+                if (accountDto.getCurrency().getValor().equals("ARS")){
+                    Account entity = accountRepository.queryAccountCurrencyARS(idUser , accountDto.getCurrency()).get();
+                    entity.setTransactionLimit(accountDto.getTransactionLimit());
+                    accountRepository.save(entity);
+                    return accountMapper.map(entity);
+                } else {
+                    Account entity = accountRepository.queryAccountCurrencyUSD(idUser , accountDto.getCurrency()).get();
+                    entity.setTransactionLimit(accountDto.getTransactionLimit());
+                    accountRepository.save(entity);
+                    return accountMapper.map(entity);
+                }
+            } else {
+                //Exception
+            }
+        } else {
+            //exception
+        }
+        return null;
+    }
+
     @Override
     public Account findById(long id) throws ChangeSetPersister.NotFoundException {
         return accountRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
