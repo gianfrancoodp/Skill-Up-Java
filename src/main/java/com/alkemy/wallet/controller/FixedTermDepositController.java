@@ -25,10 +25,10 @@ public class FixedTermDepositController {
         return ResponseEntity.status(HttpStatus.CREATED).body(newFixedTermDeposit);
     }
 
-    @PostMapping("/diffRoute")
-    public ResponseEntity<String> creditFixedTermDeposit(@RequestBody long fixedTermDepositId) throws Exception {
+    @PostMapping("/accredit")
+    public ResponseEntity<String> accreditFixedTermDeposit(@RequestBody long fixedTermDepositId) throws Exception {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        String creditResult = fixedTermDepositService.creditFixedTermDeposit(fixedTermDepositId, userName);
+        String creditResult = fixedTermDepositService.accreditFixedTermDeposit(fixedTermDepositId, userName);
         return ResponseEntity.status(HttpStatus.CREATED).body(creditResult);
     }
 
