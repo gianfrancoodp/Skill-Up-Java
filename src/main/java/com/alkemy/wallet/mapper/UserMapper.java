@@ -2,6 +2,7 @@ package com.alkemy.wallet.mapper;
 
 
 
+import com.alkemy.wallet.dto.UserDto;
 import com.alkemy.wallet.dto.basicDTO.UserBasicDTO;
 
 import com.alkemy.wallet.model.UserEntity;

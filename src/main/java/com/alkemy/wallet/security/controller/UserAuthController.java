@@ -1,5 +1,6 @@
 package com.alkemy.wallet.security.controller;
 
+import com.alkemy.wallet.dto.UserDto;
 import com.alkemy.wallet.security.dto.AuthenticationRequestDto;
 import com.alkemy.wallet.security.dto.AuthenticationResponseDto;
 import com.alkemy.wallet.security.service.IUserAuthService;

@@ -1,6 +1,7 @@
 package com.alkemy.wallet.security.service.Impl;
 
 
+import com.alkemy.wallet.dto.UserDto;
 import com.alkemy.wallet.model.UserEntity;
 import com.alkemy.wallet.repository.IUserRepository;
 import com.alkemy.wallet.security.service.IUserAuthService;

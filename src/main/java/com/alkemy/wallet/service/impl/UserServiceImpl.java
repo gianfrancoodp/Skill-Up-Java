@@ -1,5 +1,6 @@
 package com.alkemy.wallet.service.impl;
 
+import com.alkemy.wallet.dto.UserDto;
 import com.alkemy.wallet.dto.basicDTO.UserBasicDTO;
 import com.alkemy.wallet.exception.ParamNotFound;
 import com.alkemy.wallet.mapper.UserMapper;
