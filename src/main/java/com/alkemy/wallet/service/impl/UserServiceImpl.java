@@ -6,6 +6,8 @@ import com.alkemy.wallet.model.UserEntity;
 import com.alkemy.wallet.repository.IUserRepository;
 import com.alkemy.wallet.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -51,5 +53,14 @@ public class UserServiceImpl implements IUserService {
         return userRepository.findById(userId).orElseThrow(()-> new Exception("User not found"));
     }
 
+    @Override
+    public Page<UserEntity> findAll(Pageable pageable) throws Exception {
+        try {
+            Page<UserEntity> users = userRepository.findAll(pageable);
+            return users;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }
