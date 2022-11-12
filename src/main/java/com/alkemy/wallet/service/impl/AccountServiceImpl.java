@@ -1,25 +1,24 @@
 package com.alkemy.wallet.service.impl;
 
 
-
 import com.alkemy.wallet.dto.AccountDto;
 import com.alkemy.wallet.mapper.AccountMapper;
 import com.alkemy.wallet.model.Account;
 import com.alkemy.wallet.model.FixedTermDeposit;
+import com.alkemy.wallet.model.Transaction;
 import com.alkemy.wallet.model.UserEntity;
 import com.alkemy.wallet.repository.IAccountRepository;
+import com.alkemy.wallet.repository.ITransactionRepository;
 import com.alkemy.wallet.repository.IUserRepository;
 import com.alkemy.wallet.service.IAccountService;
 import com.alkemy.wallet.service.IFixedTermDepositService;
-import com.alkemy.wallet.util.CurrencyEnum;
-
-import com.alkemy.wallet.model.Transaction;
-import com.alkemy.wallet.repository.ITransactionRepository;
 import com.alkemy.wallet.service.IUserService;
+import com.alkemy.wallet.util.CurrencyEnum;
 import com.alkemy.wallet.util.Type;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -103,8 +102,8 @@ public class AccountServiceImpl implements IAccountService {
 
     @Override
     public boolean limitTransactions(Transaction transaction) {
-        try{
-            return  (transactionRepository.findByAccountIdAndTransactionDate(transaction.getAccount().getAccountId()).size())<=transaction.getAccount().getTransactionLimit();
+        try {
+            return (transactionRepository.findByAccountIdAndTransactionDate(transaction.getAccount().getAccountId()).size()) <= transaction.getAccount().getTransactionLimit();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -113,12 +112,11 @@ public class AccountServiceImpl implements IAccountService {
     }
 
 
-
     @Override
     public void accountBalance(Transaction transaction) throws Exception {
         Account account = null;
-        if(accountRepository.findById(transaction.getAccount().getAccountId()).isPresent()) {
-            if(transaction.getType().equals(Type.payment)){
+        if (accountRepository.findById(transaction.getAccount().getAccountId()).isPresent()) {
+            if (transaction.getType().equals(Type.payment)) {
                 account = accountRepository.findById(transaction.getAccount().getAccountId()).get();
                 account.setBalance(accountRepository.findById(transaction.getAccount().getAccountId()).get().getBalance() - transaction.getAmount());
             } else if (transaction.getType().equals(Type.deposit)) {
@@ -126,8 +124,7 @@ public class AccountServiceImpl implements IAccountService {
                 account.setBalance(accountRepository.findById(transaction.getAccount().getAccountId()).get().getBalance() + transaction.getAmount());
             }
             accountRepository.save(account);
-        }
-        else
+        } else
             throw new Exception("The account has not been found in the database.");
     }
 
@@ -168,6 +165,7 @@ public class AccountServiceImpl implements IAccountService {
             throw new RuntimeException(e);
         }
     }
+
     @Override
     public Account findById(long id) throws ChangeSetPersister.NotFoundException {
         return accountRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
@@ -189,12 +187,22 @@ public class AccountServiceImpl implements IAccountService {
                     balance.put(acc.getCurrency().toString(), acc.getBalance());
                 });
         List<FixedTermDeposit> list = iFixedTermDepositService.findAll().stream().filter(ftd -> ftd.getUserEntity().equals(userId)).toList();
-        if (list.size()>0){
-            list.forEach(ftd-> {
+        if (list.size() > 0) {
+            list.forEach(ftd -> {
                 balance.put("FTD: " + ftd.getAccount().getAccountId(), ftd.getAmount());
             });
         }
 
         return balance;
+    }
+
+    @Override
+    public Page<Account> findAll(Pageable pageable) throws Exception {
+        try {
+            Page<Account> accounts = accountRepository.findAll(pageable);
+            return accounts;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

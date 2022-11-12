@@ -1,11 +1,14 @@
 package com.alkemy.wallet.service;
 
+import com.alkemy.wallet.dto.AccountDto;
 import com.alkemy.wallet.model.Account;
 import com.alkemy.wallet.model.Transaction;
 import com.alkemy.wallet.model.UserEntity;
-import org.springframework.data.crossstore.ChangeSetPersister;
-import com.alkemy.wallet.dto.AccountDto;
 import com.alkemy.wallet.util.CurrencyEnum;
+import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -39,5 +42,7 @@ public interface IAccountService {
     public void accountBalance(Transaction transaction) throws Exception;
 
     public boolean accountFunds(Transaction transaction);
+
+    public Page<Account> findAll(Pageable pageable) throws Exception;
 
 }
