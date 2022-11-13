@@ -5,7 +5,9 @@ import com.alkemy.wallet.dto.AccountDto;
 import com.alkemy.wallet.model.Account;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AccountAssembler extends RepresentationModelAssemblerSupport<Account, AccountDto> {
 
     public AccountAssembler() {

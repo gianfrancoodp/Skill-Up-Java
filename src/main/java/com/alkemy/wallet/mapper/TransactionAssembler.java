@@ -5,7 +5,9 @@ import com.alkemy.wallet.dto.TransactionDto;
 import com.alkemy.wallet.model.Transaction;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TransactionAssembler extends RepresentationModelAssemblerSupport<Transaction, TransactionDto> {
 
     public TransactionAssembler() {

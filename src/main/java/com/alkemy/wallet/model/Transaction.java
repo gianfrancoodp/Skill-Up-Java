@@ -29,7 +29,7 @@ public class Transaction {
 
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "USER_ID",insertable = false,updatable = false)
+    @JoinColumn(name = "USER_ID",updatable = false)
     private UserEntity user;
 
     @ManyToOne(cascade = CascadeType.MERGE)

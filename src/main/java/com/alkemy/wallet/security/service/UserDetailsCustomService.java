@@ -21,7 +21,7 @@ public class UserDetailsCustomService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity userEntity = this.userRepository.findByUsername(username);
+        UserEntity userEntity = this.userRepository.findByEmail(username);
         if(userEntity == null){
             throw new UsernameNotFoundException("Username or password not found");
         }
@@ -33,7 +33,7 @@ public class UserDetailsCustomService implements UserDetailsService {
         UserEntity userEntity = new UserEntity();
         userEntity.setFirstName(userDTO.getFirstName());
         userEntity.setLastName(userDTO.getLastName());
-        userEntity.setEmail(userDTO.getUsername());
+        userEntity.setEmail(userDTO.getEmail());
         userEntity.setPassword(userDTO.getPassword());
         userEntity.setRoleId(userDTO.getRoleId());
         userEntity = this.userRepository.save(userEntity);

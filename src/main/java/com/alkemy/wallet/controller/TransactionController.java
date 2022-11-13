@@ -6,6 +6,7 @@ import com.alkemy.wallet.mapper.TransactionAssembler;
 import com.alkemy.wallet.mapper.TransactionMapper;
 import com.alkemy.wallet.model.Transaction;
 import com.alkemy.wallet.security.util.JwtUtils;
+import com.alkemy.wallet.service.IAccountService;
 import com.alkemy.wallet.service.ITransactionService;
 import com.alkemy.wallet.service.IUserService;
 import com.alkemy.wallet.util.Type;
@@ -41,6 +42,8 @@ public class  TransactionController {
     private TransactionAssembler transactionAssembler;
     @Autowired
     private PagedResourcesAssembler<Transaction> pagedResourcesAssembler;
+    @Autowired
+    private IAccountService accountService;
 
 
 
@@ -101,9 +104,11 @@ public class  TransactionController {
     @PostMapping
     @RequestMapping("transactions/payment")
     public ResponseEntity<Object> payment(@RequestBody TransactionPaymentDto dto, @RequestHeader(name="Authorization") String token) throws Exception {
-       String email = jwtUtils.extractUsername(token);
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        //String email = jwtUtils.extractUsername(token);
         Transaction transaction = new TransactionMapper().dtoToEntity(dto);
         transaction.setUser(userService.findByEmail(email));
+        transaction.setAccount(accountService.findById(dto.getAccountId()).get());
         TransactionPaymentDto result = new TransactionMapper().entityToDto(service.savePayment(transaction));
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
@@ -111,9 +116,11 @@ public class  TransactionController {
     @PostMapping
     @RequestMapping("transactions/deposit")
     public ResponseEntity<Object> deposit(@RequestBody TransactionPaymentDto dto, @RequestHeader(name="Authorization") String token) throws Exception {
-        String email = jwtUtils.extractUsername(token);
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        //String email = jwtUtils.extractUsername(token);
         Transaction transaction = new TransactionMapper().dtoToEntity(dto);
         transaction.setUser(userService.findByEmail(email));
+        transaction.setAccount(accountService.findById(dto.getAccountId()).get());
         TransactionPaymentDto result = new TransactionMapper().entityToDto(service.saveDeposit(transaction));
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }

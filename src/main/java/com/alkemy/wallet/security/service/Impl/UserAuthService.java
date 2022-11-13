@@ -32,13 +32,13 @@ public class UserAuthService implements IUserAuthService, UserDetailsService {
 
     @Override
     public boolean save(UserDto userDTO) throws Exception {
-        if (emailExist(userDTO.getUsername())) {
-            throw new Exception("There is an account with that email address:" + userDTO.getUsername());
+        if (emailExist(userDTO.getEmail())) {
+            throw new Exception("There is an account with that email address:" + userDTO.getEmail());
         }
         UserEntity userEntity = new UserEntity();
         userEntity.setFirstName(userDTO.getFirstName());
         userEntity.setLastName(userDTO.getLastName());
-        userEntity.setEmail(userDTO.getUsername());
+        userEntity.setEmail(userDTO.getEmail());
         userEntity.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userEntity.setRoleId(userDTO.getRoleId());
         userEntity = this.userRepository.save(userEntity);

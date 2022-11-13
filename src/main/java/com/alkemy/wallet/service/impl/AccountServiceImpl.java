@@ -94,31 +94,17 @@ public class AccountServiceImpl implements IAccountService {
 
     @Override
     public Optional<Account> findById(Long id) throws Exception {
-        return accountRepository.findById(id);
+       try{
+           return accountRepository.findById(id);
+
+       } catch (Exception e) {
+           throw new RuntimeException(e);
+       }
     }
 
     @Override
     public List<Account> findByUserId(Long id) {
         return accountRepository.findByUserId(id);
-    }
-
-    public boolean accountUser(Long id, String userEmail) throws Exception {
-        if (accountRepository.findByUserId(userService.findByEmail(userEmail).getId()).isEmpty())
-            return false;
-        else
-            return true;
-    }
-
-
-    @Override
-    public boolean limitTransactions(Transaction transaction) {
-        try {
-            return (transactionRepository.findByAccountIdAndTransactionDate(transaction.getAccount().getAccountId()).size()) <= transaction.getAccount().getTransactionLimit();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-
     }
 
 

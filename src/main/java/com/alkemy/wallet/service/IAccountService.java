@@ -25,15 +25,6 @@ public interface IAccountService {
 
     public List<Account> findByUserId(Long id);
 
-    /**
-     * returns true if the account Id belongs to the authenticated user, or false if it doesn't.
-     * @param accountId, userEmail
-     * @return boolean
-     */
-    public boolean accountUser(Long accountId, String userEmail) throws Exception;
-
-    public boolean limitTransactions(Transaction transaction);
-
     Account findById(long id) throws ChangeSetPersister.NotFoundException;
     List<Account> findAll();
 

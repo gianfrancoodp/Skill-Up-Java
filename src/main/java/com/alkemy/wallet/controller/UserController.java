@@ -59,8 +59,8 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/users/paged")
-    public ResponseEntity<PagedModel<UserBasicDTO>> getAllPaged(@RequestParam(required = false) Integer pageQuery) {
+    @GetMapping("/paged")
+    public ResponseEntity<PagedModel<UserBasicDTO>> getAllPaged(@RequestParam(required = false, name = "page") Integer pageQuery) {
         try {
             PageRequest pageRequest = PageRequest.of(0, 10);
             if (pageQuery != null) {
@@ -73,7 +73,6 @@ public class UserController {
             if (pageRequest.getPageNumber() < users.getTotalPages()-1) {
                 usersDto.add(linkTo(methodOn(AccountController.class).getAll(pageRequest.getPageNumber() + 1)).withSelfRel());
             }
-
             return new ResponseEntity<>(usersDto, HttpStatus.OK);
         } catch (Exception e) {
             throw new RuntimeException(e);

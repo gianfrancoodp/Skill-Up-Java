@@ -5,8 +5,11 @@ import com.alkemy.wallet.dto.basicDTO.UserBasicDTO;
 import com.alkemy.wallet.model.UserEntity;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserAssembler  extends RepresentationModelAssemblerSupport<UserEntity, UserBasicDTO> {
+
 
     public UserAssembler() {
         super(UserController.class, UserBasicDTO.class);

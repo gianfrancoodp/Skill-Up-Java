@@ -164,13 +164,14 @@ public class TransactionServiceImpl implements ITransactionService {
     @Override
     public Transaction savePayment(Transaction transaction) throws Exception {
         Transaction result;
-        if(transaction.getAccount().getUserId().equals(transaction.getUser().getId())) {
-            if (accountService.limitTransactions(transaction) && accountService.accountFunds(transaction)) {
+        if(transaction.getAccount().getUserId().getId() == (transaction.getUser().getId())) {
+            if (accountService.accountFunds(transaction)) {
+                transaction.setTransactionDate(Timestamp.valueOf(LocalDateTime.now()));
                 transaction.setType(Type.payment);
                 accountService.accountBalance(transaction);
                 result = repo.save(transaction);
             } else
-                throw new Exception("The diary transaction limit has been reached or your account funds are not enough");
+                throw new Exception("Account funds are insufficient.");
         }
         else
             throw new Exception("The account does not belong to the logged user.");
@@ -186,13 +187,11 @@ public class TransactionServiceImpl implements ITransactionService {
     @Override
     public Transaction saveDeposit(Transaction transaction) throws Exception {
         Transaction result;
-        if(transaction.getAccount().getUserId().equals(transaction.getUser().getId())) {
-            if (accountService.limitTransactions(transaction) && accountService.accountFunds(transaction)) {
-                transaction.setType(Type.deposit);
-                accountService.accountBalance(transaction);
-                result = repo.save(transaction);
-            } else
-                throw new Exception("The diary transaction limit has been reached or your account funds are not enough");
+        if(transaction.getAccount().getUserId().getId() == (transaction.getUser().getId())) {
+            transaction.setTransactionDate(Timestamp.valueOf(LocalDateTime.now()));
+            transaction.setType(Type.deposit);
+            accountService.accountBalance(transaction);
+            result = repo.save(transaction);
         }
         else
             throw new Exception("The account does not belong to the logged user.");
