@@ -25,6 +25,7 @@ import java.util.List;
 @Service
 public class TransactionServiceImpl implements ITransactionService {
 
+    @Autowired
     private TransactionMapper mapper;
 
     @Autowired

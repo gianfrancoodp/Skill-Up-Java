@@ -1,10 +1,12 @@
 package com.alkemy.wallet.dto;
 
+import com.alkemy.wallet.model.Account;
 import com.alkemy.wallet.model.Transaction;
 import com.alkemy.wallet.util.Type;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.apache.catalina.User;
 
 import java.sql.Timestamp;
 @Data
@@ -18,6 +20,7 @@ public class TransactionDto {
     private Timestamp transactionDate;
     private String userFrom;
     private String account;
+
 
 
     public TransactionDto(Transaction transaction){
