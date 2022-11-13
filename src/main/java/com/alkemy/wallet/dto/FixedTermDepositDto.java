@@ -1,6 +1,9 @@
 package com.alkemy.wallet.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+
+import java.util.Date;
 
 @Data
 public class FixedTermDepositDto {
@@ -9,9 +12,8 @@ public class FixedTermDepositDto {
     private double amount;
     private long userId;
     private long accountId;
-    private double interest;
-    private String creationDate;
-    private String closingDate;
-    private boolean active;
-
+    @JsonFormat(pattern = "yyyy-MM-dd@HH:mm:ss.SSSZ")
+    private Date creationDate;
+    @JsonFormat(pattern = "yyyy-MM-dd@HH:mm:ss.SSSZ")
+    private Date closingDate;
 }

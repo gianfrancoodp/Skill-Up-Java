@@ -94,12 +94,10 @@ public class AccountServiceImpl implements IAccountService {
         }
     }
 
-
     @Override
     public List<Account> findAccountByUserId(Long id) throws Exception {
         return accountRepository.findByUserId(id);
     }
-
 
     @Override
     public Optional<Account> findById(Long id) throws Exception {
@@ -115,7 +113,6 @@ public class AccountServiceImpl implements IAccountService {
     public List<Account> findByUserId(Long id) {
         return accountRepository.findByUserId(id);
     }
-
 
     @Override
     public void accountBalance(Transaction transaction) throws Exception {
@@ -137,7 +134,6 @@ public class AccountServiceImpl implements IAccountService {
     @Override
     @Transactional(readOnly = true)
     public List<AccountDto> accountList(long idUser) throws Exception {
-
         Optional<UserEntity> user = userRepository.findById(idUser);
         if (user.isPresent()) {
             List<Account> listAccount = accountRepository.accountList(idUser);
@@ -149,9 +145,7 @@ public class AccountServiceImpl implements IAccountService {
 
     }
 
-
     private AccountDto transactionLimitCreateAccount(CurrencyEnum currency) {
-
         AccountDto accountDto = new AccountDto();
         accountDto.setBalance(0.0);
         if (currency.getValor().equalsIgnoreCase("USD")) {
@@ -163,7 +157,6 @@ public class AccountServiceImpl implements IAccountService {
         }
         return accountDto;
     }
-
 
     public boolean accountFunds(Transaction transaction) {
         try {
@@ -178,36 +171,24 @@ public class AccountServiceImpl implements IAccountService {
     public AccountDto updateAccount(Long idUser ,AccountDto accountDto) throws Exception {
         Optional<UserEntity> find = userRepository.findById(idUser);
 
-        if (find.isPresent()){
-            if (!find.get().isDeleted()){
-                if (accountDto.getCurrency().getValor().equals("ARS")){
-
         if (find.isPresent()) {
             if (!find.get().isDeleted()) {
                 if (accountDto.getCurrency().getValor().equals("ARS")) {
-
-                    Account entity = accountRepository.queryAccountCurrencyARS(idUser , accountDto.getCurrency()).get();
+                    Account entity = accountRepository.queryAccountCurrencyARS(idUser, accountDto.getCurrency()).get();
                     entity.setTransactionLimit(accountDto.getTransactionLimit());
                     accountRepository.save(entity);
                     return accountMapper.map(entity);
                 } else {
-                    Account entity = accountRepository.queryAccountCurrencyUSD(idUser , accountDto.getCurrency()).get();
+                    Account entity = accountRepository.queryAccountCurrencyUSD(idUser, accountDto.getCurrency()).get();
                     entity.setTransactionLimit(accountDto.getTransactionLimit());
                     accountRepository.save(entity);
                     return accountMapper.map(entity);
                 }
             } else {
-
-                //Exception
-            }
-        } else {
-            //exception
-
-                new UserNotFoundException("The User with ID " +idUser+ " was deleted.");
+                new UserNotFoundException("The User with ID " + idUser + " was deleted.");
             }
         } else {
             new UserNotFoundException("There is no user with that ID!");
-
         }
         return null;
     }

@@ -23,6 +23,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,7 +52,7 @@ public class FixedTermDepositServiceImpl implements IFixedTermDepositService {
         // Also, we need to validate the ClosingDate. It must be greater than 30 days.
         ZonedDateTime now = ZonedDateTime.now();
         ZonedDateTime dateAllowed = now.plusDays(+30);
-        ZonedDateTime closingDate = ZonedDateTime.parse(dto.getClosingDate());
+        Date closingDate = dto.getClosingDate();
 
         if (!account.getUserId().equals(user)) { // User Validation
             throw new NonOwnAccountException("The selected account does not belong to you.");
@@ -87,9 +88,6 @@ public class FixedTermDepositServiceImpl implements IFixedTermDepositService {
     }
 
     @Override
-
-    public String creditFixedTermDeposit(long fixedTermDepositId, String userName) throws Exception {
-
     public String accreditFixedTermDeposit(long fixedTermDepositId, String userName) throws Exception {
 
         // First, is necessary to create an instance of Fixed-Term Deposit

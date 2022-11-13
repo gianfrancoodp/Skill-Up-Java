@@ -16,15 +16,7 @@ import java.util.List;
 public class FixedTermDepositMapper {
 
     @Autowired
-
-
     private IFixedTermDepositRepository fixedTermDepositRepository;
-
-
-    private IFixedTermDepositRepository fixedTermDepositRepository;
-
-    private ModelMapper modelMapper;
-
 
     // Mapper DTO to Entity
     // This mapper is used when a new Fixed-Term Deposit is created
@@ -33,24 +25,20 @@ public class FixedTermDepositMapper {
         entity.setAmount(dto.getAmount());
         entity.setUserId(userId);
         entity.setAccountId(accountId);
-        entity.setClosingDate(string2Timestamp(dto.getClosingDate()));
-        // TODO: WITH MODEL MAPPER
-        // entity = modelMapper.map(dto, FixedTermDeposit.class);
+        entity.setClosingDate(new Timestamp(dto.getClosingDate().getTime()));
         return entity;
     }
 
     // Mapper Entity to DTO
     // This mapper is used when the user wants to get a Fixed-Term Deposit
     public FixedTermDepositDto fixedTermDepositEntity2DTO(FixedTermDeposit entity){
-        FixedTermDepositDto dto = modelMapper.map(entity, FixedTermDepositDto.class);
-        //TODO: SIN MODEL MAPPER
-        /*dto.setId(entity.getId());
+        FixedTermDepositDto dto = new FixedTermDepositDto();
+        dto.setId(entity.getId());
         dto.setAmount(entity.getAmount());
-        dto.setUserEntityId(entity.getUserEntityId());
+        dto.setUserId(entity.getUserId());
         dto.setAccountId(entity.getAccountId());
-        dto.setInterest(entity.getInterest());
-        dto.setCreationDate(entity.getCreationDate().toString());
-        dto.setClosingDate(entity.getClosingDate().toString());*/
+        dto.setCreationDate(entity.getCreationDate());
+        dto.setClosingDate(entity.getClosingDate());
         return dto;
     }
 
