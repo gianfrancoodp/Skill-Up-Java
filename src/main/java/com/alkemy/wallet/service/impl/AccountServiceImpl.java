@@ -2,6 +2,7 @@ package com.alkemy.wallet.service.impl;
 
 
 import com.alkemy.wallet.dto.AccountDto;
+import com.alkemy.wallet.mapper.AccountAssembler;
 import com.alkemy.wallet.mapper.AccountMapper;
 import com.alkemy.wallet.model.Account;
 import com.alkemy.wallet.model.FixedTermDeposit;
@@ -19,7 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +43,11 @@ public class AccountServiceImpl implements IAccountService {
     private IUserService userService;
     @Autowired
     private ITransactionRepository transactionRepository;
+    @Autowired
+    private AccountAssembler accountAssembler;
+    @Autowired
+    private PagedResourcesAssembler<Account> pagedResourcesAssembler;
+
 
     private IFixedTermDepositService iFixedTermDepositService;
 
@@ -221,10 +229,15 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public Page<Account> findAll(Pageable pageable) throws Exception {
+    public PagedModel<AccountDto> findAll(Integer page) throws Exception {
         try {
-            Page<Account> accounts = accountRepository.findAll(pageable);
-            return accounts;
+            PageRequest pageRequest = PageRequest.of(0,10);
+            if(page != null) {
+                pageRequest = PageRequest.of(page, 10);
+            }
+            Page<Account> accounts = accountRepository.findAll(pageRequest);
+            PagedModel<AccountDto> accountsDto = pagedResourcesAssembler.toModel(accounts, accountAssembler);
+            return accountsDto;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

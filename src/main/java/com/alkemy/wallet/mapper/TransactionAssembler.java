@@ -17,6 +17,11 @@ public class TransactionAssembler extends RepresentationModelAssemblerSupport<Tr
     @Override
     public TransactionDto toModel(Transaction transaction){
         TransactionDto transactionDto = instantiateModel(transaction);
+        transactionDto.setId(transaction.getId());
+        transactionDto.setTransactionDate(transaction.getTransactionDate());
+        transactionDto.setType(transaction.getType());
+        transactionDto.setAmount(transaction.getAmount());
+        transactionDto.setTransactionDate(transaction.getTransactionDate());
         return transactionDto;
     }
 

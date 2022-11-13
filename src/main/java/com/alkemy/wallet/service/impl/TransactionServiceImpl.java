@@ -2,6 +2,7 @@ package com.alkemy.wallet.service.impl;
 
 import com.alkemy.wallet.dto.TransactionDto;
 import com.alkemy.wallet.dto.basicDTO.UserBasicDTO;
+import com.alkemy.wallet.mapper.TransactionAssembler;
 import com.alkemy.wallet.mapper.TransactionMapper;
 import com.alkemy.wallet.mapper.UserMapper;
 import com.alkemy.wallet.model.Account;
@@ -16,7 +17,9 @@ import com.alkemy.wallet.util.CurrencyEnum;
 import com.alkemy.wallet.util.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -40,6 +43,10 @@ public class TransactionServiceImpl implements ITransactionService {
     private IUserService userService;
     @Autowired
     private ITransactionRepository iTransactionRepository;
+    @Autowired
+    private TransactionAssembler transactionAssembler;
+    @Autowired
+    private PagedResourcesAssembler<Transaction> pagedResourcesAssembler;
 
 
     @Override
@@ -208,10 +215,15 @@ public class TransactionServiceImpl implements ITransactionService {
     }
 
     @Override
-    public Page<Transaction> findByUser(Long userId, Pageable pageable) throws Exception {
+    public PagedModel<TransactionDto> findByUser(Long userId, Integer page) throws Exception {
         try {
-            Page<Transaction> accounts = repo.findByUserId(userId, pageable);
-            return accounts;
+            PageRequest pageRequest = PageRequest.of(0,10);
+            if(page != null) {
+                pageRequest = PageRequest.of(page, 10);
+            }
+            Page<Transaction> transactions = repo.findByUserId(userId, pageRequest);
+            PagedModel<TransactionDto> transactionDtos = pagedResourcesAssembler.toModel(transactions, transactionAssembler);
+            return transactionDtos;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

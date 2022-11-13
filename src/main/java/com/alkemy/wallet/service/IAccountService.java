@@ -6,8 +6,7 @@ import com.alkemy.wallet.model.Transaction;
 import com.alkemy.wallet.model.UserEntity;
 import com.alkemy.wallet.util.CurrencyEnum;
 import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 
 import java.util.List;
 import java.util.Map;
@@ -36,6 +35,6 @@ public interface IAccountService {
 
     public AccountDto updateAccount(Long idUser , AccountDto accountDto) throws Exception;
 
-    public Page<Account> findAll(Pageable pageable) throws Exception;
+    public PagedModel<AccountDto> findAll(Integer page) throws Exception;
 
 }

@@ -2,7 +2,6 @@ package com.alkemy.wallet.controller;
 
 import com.alkemy.wallet.dto.TransactionDto;
 import com.alkemy.wallet.dto.TransactionPaymentDto;
-import com.alkemy.wallet.mapper.TransactionAssembler;
 import com.alkemy.wallet.mapper.TransactionMapper;
 import com.alkemy.wallet.model.Transaction;
 import com.alkemy.wallet.security.util.JwtUtils;
@@ -11,9 +10,6 @@ import com.alkemy.wallet.service.ITransactionService;
 import com.alkemy.wallet.service.IUserService;
 import com.alkemy.wallet.util.Type;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 
 @RestController
@@ -38,10 +31,6 @@ public class  TransactionController {
     private IUserService userService;
     @Autowired
     private JwtUtils jwtUtils;
-    @Autowired
-    private TransactionAssembler transactionAssembler;
-    @Autowired
-    private PagedResourcesAssembler<Transaction> pagedResourcesAssembler;
     @Autowired
     private IAccountService accountService;
 
@@ -137,20 +126,9 @@ public class  TransactionController {
     }
 
     @GetMapping("/transactions/paged/{userId}")
-    public ResponseEntity<PagedModel<TransactionDto>> getAll(@PathVariable("userId") Long id, @RequestParam(required = false) Integer pageQuery){
+    public ResponseEntity<PagedModel<TransactionDto>> getAll(@PathVariable("userId") Long id, @RequestParam(name = "page", required = false) Integer pageQuery){
         try{
-            PageRequest pageRequest = PageRequest.of(0,10);
-            if(pageQuery != null) {
-                pageRequest = PageRequest.of(pageQuery, 10);
-            }
-            Page<Transaction> transactions = service.findByUser(id, pageRequest);
-            PagedModel<TransactionDto> transactionDtos = pagedResourcesAssembler.toModel(transactions, transactionAssembler);
-            if(pageRequest.hasPrevious())
-                transactionDtos.add(linkTo(methodOn(AccountController.class).getAll(pageRequest.getPageNumber()-1)).withSelfRel());
-            if (pageRequest.getPageNumber() < transactions.getTotalPages()-1) {
-                transactionDtos.add(linkTo(methodOn(AccountController.class).getAll(pageRequest.getPageNumber()+1)).withSelfRel());
-            }
-
+            PagedModel<TransactionDto> transactionDtos = service.findByUser(id, pageQuery);
             return new ResponseEntity<>(transactionDtos, HttpStatus.OK);
         } catch (Exception e) {
             throw new RuntimeException(e);

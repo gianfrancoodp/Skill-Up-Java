@@ -18,6 +18,10 @@ public class UserAssembler  extends RepresentationModelAssemblerSupport<UserEnti
     @Override
     public UserBasicDTO toModel(UserEntity userEntity){
         UserBasicDTO userBasicDTO = instantiateModel(userEntity);
+        userBasicDTO.setId(userEntity.getId());
+        userBasicDTO.setEmail(userEntity.getEmail());
+        userBasicDTO.setFirstName(userEntity.getFirstName());
+        userBasicDTO.setLastName(userEntity.getLastName());
         return userBasicDTO;
     }
 

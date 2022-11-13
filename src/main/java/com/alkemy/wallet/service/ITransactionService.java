@@ -4,8 +4,7 @@ import com.alkemy.wallet.dto.TransactionDto;
 import com.alkemy.wallet.dto.basicDTO.UserBasicDTO;
 import com.alkemy.wallet.model.Transaction;
 import com.alkemy.wallet.util.Type;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,6 +45,6 @@ public interface ITransactionService {
 
     TransactionDto sendUsd(long accountId, long userId, double amount, long accountToId, Type type) throws Exception;
 
-    public Page<Transaction> findByUser(Long userId, Pageable pageable) throws Exception;
+    public PagedModel<TransactionDto> findByUser(Long userId, Integer page) throws Exception;
     }
 

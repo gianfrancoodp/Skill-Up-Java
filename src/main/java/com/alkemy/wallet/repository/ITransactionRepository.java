@@ -18,6 +18,6 @@ public interface ITransactionRepository extends JpaRepository<Transaction, Long>
     Transaction save(Transaction t);
     public List<Transaction> findByAccount(Long id);
 
-    @Query(value = "Select t from Transaction t where t.user = :id")
+    @Query(value = "SELECT * FROM skill_up_java.transactions where user_id = :id", nativeQuery = true)
     public Page<Transaction> findByUserId(@Param("id") Long id, Pageable pageable);
 }

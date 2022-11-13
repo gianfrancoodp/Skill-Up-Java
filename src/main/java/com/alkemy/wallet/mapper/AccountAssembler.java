@@ -17,6 +17,10 @@ public class AccountAssembler extends RepresentationModelAssemblerSupport<Accoun
     @Override
     public AccountDto toModel(Account account){
         AccountDto accountDto = instantiateModel(account);
+        accountDto.setCurrency(account.getCurrency());
+        accountDto.setBalance(account.getBalance());
+        accountDto.setCreationDate(account.getCreationDate());
+        accountDto.setUpdateDate(account.getUpdateDate());
         return accountDto;
     }
 
