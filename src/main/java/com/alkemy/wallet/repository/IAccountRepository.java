@@ -1,5 +1,7 @@
 package com.alkemy.wallet.repository;
 
+
+
 import com.alkemy.wallet.model.Account;
 import com.alkemy.wallet.util.CurrencyEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,5 +27,6 @@ public interface IAccountRepository extends JpaRepository<Account , Long> {
 
 
     public List<Account> findByUserId(Long id);
+
 
 }

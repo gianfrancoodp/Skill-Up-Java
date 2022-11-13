@@ -1,6 +1,9 @@
 package com.alkemy.wallet.controller;
 
 
+
+import com.alkemy.wallet.dto.UserDto;
+
 import com.alkemy.wallet.model.UserEntity;
 
 import com.alkemy.wallet.dto.basicDTO.UserBasicDTO;
@@ -39,9 +42,18 @@ public class UserController {
     public List<UserBasicDTO> getUsers() {
         return userService.getUsers();}
 
-    @GetMapping("accounts/userId")
 
 
+    @GetMapping("users/{id}")
+    public UserDto getAllUser(@PathVariable Long id){
+        return userService.getUserAll(id);}
+
+
+    @PatchMapping(path = "users/{id}", consumes = "application/json", produces = "application/json")
+    public UserDto update(@PathVariable Long id, @RequestBody UserDto userDTO) {
+        UserDto result = userService.update(id, userDTO);
+        return result;
+    }
     @DeleteMapping("users/{id}")
     public ResponseEntity<String> deleteUserById (@PathVariable Long id) throws Exception {
         userService.delete(id);

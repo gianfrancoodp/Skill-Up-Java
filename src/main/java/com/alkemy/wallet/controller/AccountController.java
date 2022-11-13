@@ -38,6 +38,8 @@ public class AccountController {
         return ResponseEntity.ok().body(accountService.accountList(idUser));
     }
 
+
+
     @PatchMapping("/accounts/{idUser}")
     public ResponseEntity<AccountDto> updateAccount(@PathVariable Long idUser ,@RequestBody AccountDto accountDto) throws Exception {
         return ResponseEntity.ok().body(accountService.updateAccount(idUser,accountDto));

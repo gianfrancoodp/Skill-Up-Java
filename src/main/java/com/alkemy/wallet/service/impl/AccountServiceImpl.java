@@ -185,9 +185,15 @@ public class AccountServiceImpl implements IAccountService {
     @Transactional
     public AccountDto updateAccount(Long idUser ,AccountDto accountDto) throws Exception {
         Optional<UserEntity> find = userRepository.findById(idUser);
+
+        if (find.isPresent()){
+            if (!find.get().isDeleted()){
+                if (accountDto.getCurrency().getValor().equals("ARS")){
+
         if (find.isPresent()) {
             if (!find.get().isDeleted()) {
                 if (accountDto.getCurrency().getValor().equals("ARS")) {
+
                     Account entity = accountRepository.queryAccountCurrencyARS(idUser , accountDto.getCurrency()).get();
                     entity.setTransactionLimit(accountDto.getTransactionLimit());
                     accountRepository.save(entity);
@@ -199,10 +205,17 @@ public class AccountServiceImpl implements IAccountService {
                     return accountMapper.map(entity);
                 }
             } else {
+
+                //Exception
+            }
+        } else {
+            //exception
+
                 new UserNotFoundException("The User with ID " +idUser+ " was deleted.");
             }
         } else {
             new UserNotFoundException("There is no user with that ID!");
+
         }
         return null;
     }

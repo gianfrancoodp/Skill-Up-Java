@@ -35,9 +35,11 @@ public class Account {
     private Double balance;
 
     @ManyToOne
+
     @JoinColumn(name = "USER_ID", nullable = false)
 
     private UserEntity userId;
+
 
     @Column(name = "CREATED_DATE", updatable=false)
     @CreationTimestamp

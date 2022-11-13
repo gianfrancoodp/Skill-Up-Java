@@ -87,7 +87,11 @@ public class FixedTermDepositServiceImpl implements IFixedTermDepositService {
     }
 
     @Override
+
+    public String creditFixedTermDeposit(long fixedTermDepositId, String userName) throws Exception {
+
     public String accreditFixedTermDeposit(long fixedTermDepositId, String userName) throws Exception {
+
         // First, is necessary to create an instance of Fixed-Term Deposit
         FixedTermDeposit fixedTermDeposit = fixedTermDepositRepository.getReferenceById(fixedTermDepositId);
         // Then, let´s save the actual date to validate with the Fixed-Term Deposit ClosingDate
