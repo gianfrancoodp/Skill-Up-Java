@@ -103,12 +103,12 @@ public class AccountServiceImpl implements IAccountService {
 
     @Override
     public Optional<Account> findById(Long id) throws Exception {
-       try{
-           return accountRepository.findById(id);
+        try {
+            return accountRepository.findById(id);
 
-       } catch (Exception e) {
-           throw new RuntimeException(e);
-       }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -120,8 +120,8 @@ public class AccountServiceImpl implements IAccountService {
     @Override
     public void accountBalance(Transaction transaction) throws Exception {
         Account account = null;
-        if(accountRepository.findById(transaction.getAccount().getAccountId()).isPresent()) {
-            if(transaction.getType().equals(Type.payment)){
+        if (accountRepository.findById(transaction.getAccount().getAccountId()).isPresent()) {
+            if (transaction.getType().equals(Type.payment)) {
                 account = accountRepository.findById(transaction.getAccount().getAccountId()).get();
                 account.setBalance(accountRepository.findById(transaction.getAccount().getAccountId()).get().getBalance() - transaction.getAmount());
             } else if (transaction.getType().equals(Type.deposit)) {
@@ -129,8 +129,7 @@ public class AccountServiceImpl implements IAccountService {
                 account.setBalance(accountRepository.findById(transaction.getAccount().getAccountId()).get().getBalance() + transaction.getAmount());
             }
             accountRepository.save(account);
-        }
-        else
+        } else
             throw new Exception("The account has not been found in the database.");
     }
 
@@ -175,85 +174,91 @@ public class AccountServiceImpl implements IAccountService {
 
     @Override
     @Transactional
-    public AccountDto updateAccount(Long idUser ,AccountDto accountDto) throws Exception {
+    public AccountDto updateAccount(Long idUser, AccountDto accountDto) throws Exception {
         Optional<UserEntity> find = userRepository.findById(idUser);
-
-        if (find.isPresent()){
-            if (!find.get().isDeleted()){
-                if (accountDto.getCurrency().getValor().equals("ARS")){
 
         if (find.isPresent()) {
             if (!find.get().isDeleted()) {
                 if (accountDto.getCurrency().getValor().equals("ARS")) {
 
-                    Account entity = accountRepository.queryAccountCurrencyARS(idUser , accountDto.getCurrency()).get();
-                    entity.setTransactionLimit(accountDto.getTransactionLimit());
-                    accountRepository.save(entity);
-                    return accountMapper.map(entity);
+                    if (find.isPresent()) {
+                        if (!find.get().isDeleted()) {
+                            if (accountDto.getCurrency().getValor().equals("ARS")) {
+
+                                Account entity = accountRepository.queryAccountCurrencyARS(idUser, accountDto.getCurrency()).get();
+                                entity.setTransactionLimit(accountDto.getTransactionLimit());
+                                accountRepository.save(entity);
+                                return accountMapper.map(entity);
+                            } else {
+                                Account entity = accountRepository.queryAccountCurrencyUSD(idUser, accountDto.getCurrency()).get();
+                                entity.setTransactionLimit(accountDto.getTransactionLimit());
+                                accountRepository.save(entity);
+                                return accountMapper.map(entity);
+                            }
+                        } else {
+
+                            //Exception
+                        }
+                    } else {
+                        //exception
+
+                        new UserNotFoundException("The User with ID " + idUser + " was deleted.");
+                    }
                 } else {
-                    Account entity = accountRepository.queryAccountCurrencyUSD(idUser , accountDto.getCurrency()).get();
-                    entity.setTransactionLimit(accountDto.getTransactionLimit());
-                    accountRepository.save(entity);
-                    return accountMapper.map(entity);
+                    new UserNotFoundException("There is no user with that ID!");
+
                 }
-            } else {
 
-                //Exception
+                return null;
             }
-        } else {
-            //exception
+        }
+        return accountDto;
+    }
 
-                new UserNotFoundException("The User with ID " +idUser+ " was deleted.");
+
+            @Override
+            public Account findById ( long id) throws ChangeSetPersister.NotFoundException {
+                return accountRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
             }
-        } else {
-            new UserNotFoundException("There is no user with that ID!");
 
-        }
-        return null;
-    }
-
-    @Override
-    public Account findById(long id) throws ChangeSetPersister.NotFoundException {
-        return accountRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
-    }
-
-    @Override
-    public List<Account> findAll() {
-        return accountRepository.findAll();
-    }
-
-    @Override
-    public Map<String, Double> getAccountsBalance(UserEntity userId) throws Exception {
-        Map<String, Double> balance = new HashMap<>();
-        accountRepository
-                .findAll()
-                .stream()
-                .filter(acc -> acc.getUserId().equals(userId))
-                .forEach(acc -> {
-                    balance.put(acc.getCurrency().toString(), acc.getBalance());
-                });
-        List<FixedTermDeposit> list = iFixedTermDepositService.findAll().stream().filter(ftd -> ftd.getUserEntity().equals(userId)).toList();
-        if (list.size()>0){
-            list.forEach(ftd-> {
-                balance.put("FTD: " + ftd.getAccount().getAccountId(), ftd.getAmount());
-            });
-        }
-
-        return balance;
-    }
-
-    @Override
-    public PagedModel<AccountDto> findAll(Integer page) throws Exception {
-        try {
-            PageRequest pageRequest = PageRequest.of(0,10);
-            if(page != null) {
-                pageRequest = PageRequest.of(page, 10);
+            @Override
+            public List<Account> findAll () {
+                return accountRepository.findAll();
             }
-            Page<Account> accounts = accountRepository.findAll(pageRequest);
-            PagedModel<AccountDto> accountsDto = pagedResourcesAssembler.toModel(accounts, accountAssembler);
-            return accountsDto;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+
+            @Override
+            public Map<String, Double> getAccountsBalance (UserEntity userId) throws Exception {
+                Map<String, Double> balance = new HashMap<>();
+                accountRepository
+                        .findAll()
+                        .stream()
+                        .filter(acc -> acc.getUserId().equals(userId))
+                        .forEach(acc -> {
+                            balance.put(acc.getCurrency().toString(), acc.getBalance());
+                        });
+                List<FixedTermDeposit> list = iFixedTermDepositService.findAll().stream().filter(ftd -> ftd.getUserEntity().equals(userId)).toList();
+                if (list.size() > 0) {
+                    list.forEach(ftd -> {
+                        balance.put("FTD: " + ftd.getAccount().getAccountId(), ftd.getAmount());
+                    });
+                }
+
+                return balance;
+            }
+
+            @Override
+            public PagedModel<AccountDto> findAll (Integer page) throws Exception {
+                try {
+                    PageRequest pageRequest = PageRequest.of(0, 10);
+                    if (page != null) {
+                        pageRequest = PageRequest.of(page, 10);
+                    }
+                    Page<Account> accounts = accountRepository.findAll(pageRequest);
+                    PagedModel<AccountDto> accountsDto = pagedResourcesAssembler.toModel(accounts, accountAssembler);
+                    return accountsDto;
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
 }

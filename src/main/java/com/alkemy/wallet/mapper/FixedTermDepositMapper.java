@@ -21,7 +21,6 @@ public class FixedTermDepositMapper {
     private IFixedTermDepositRepository fixedTermDepositRepository;
 
 
-    private IFixedTermDepositRepository fixedTermDepositRepository;
 
     private ModelMapper modelMapper;
 

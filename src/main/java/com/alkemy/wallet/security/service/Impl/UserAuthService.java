@@ -30,13 +30,7 @@ public class UserAuthService implements IUserAuthService, UserDetailsService {
         }
 
         return new User(userEntity.getUsername(), userEntity.getPassword(), userEntity.getAuthorities());
-    }
 
-   if(userEntity == null){
-            throw new UsernameNotFoundException("Username or password not found");
-        }
-
-        return new User(userEntity.getUsername(),userEntity.getPassword(), userEntity.getAuthorities());
     }
 
 

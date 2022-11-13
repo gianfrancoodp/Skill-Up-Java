@@ -86,10 +86,6 @@ public class FixedTermDepositServiceImpl implements IFixedTermDepositService {
         return newDto;
     }
 
-    @Override
-
-    public String creditFixedTermDeposit(long fixedTermDepositId, String userName) throws Exception {
-
     public String accreditFixedTermDeposit(long fixedTermDepositId, String userName) throws Exception {
 
         // First, is necessary to create an instance of Fixed-Term Deposit
