@@ -69,6 +69,7 @@ public class UserEntity implements UserDetails {
     private boolean deleted = Boolean.FALSE;
 
 
+
     public UserEntity(long id, String firstName, String lastName, String email, String password) {
         this.id = id;
         this.firstName = firstName;
@@ -100,7 +101,33 @@ public class UserEntity implements UserDetails {
         return true;
     }
 
+  
+
     @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(getRole().getName().toString()));
+    }
+
+    @Override
+    public String getUsername() {  return this.email;   }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+
     public boolean isCredentialsNonExpired() {
         return true;
     }

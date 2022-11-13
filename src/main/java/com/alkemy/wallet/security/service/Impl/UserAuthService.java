@@ -24,6 +24,7 @@ public class UserAuthService implements IUserAuthService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         UserEntity userEntity = this.userRepository.findByEmail(email);
+
         if (userEntity == null) {
             throw new UsernameNotFoundException("Username or password not found");
         }
@@ -31,6 +32,12 @@ public class UserAuthService implements IUserAuthService, UserDetailsService {
         return new User(userEntity.getUsername(), userEntity.getPassword(), userEntity.getAuthorities());
     }
 
+   if(userEntity == null){
+            throw new UsernameNotFoundException("Username or password not found");
+        }
+
+        return new User(userEntity.getUsername(),userEntity.getPassword(), userEntity.getAuthorities());
+    }
 
 
     @Override
@@ -38,6 +45,8 @@ public class UserAuthService implements IUserAuthService, UserDetailsService {
         if (emailExist(userDTO.getEmail())) {
             throw new Exception("There is an account with that email address:" + userDTO.getEmail());
         }
+
+
 
         UserEntity userEntity = new UserEntity();
         userEntity.setFirstName(userDTO.getFirstName());
