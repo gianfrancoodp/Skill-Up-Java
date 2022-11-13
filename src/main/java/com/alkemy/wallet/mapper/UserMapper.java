@@ -42,6 +42,17 @@ public class UserMapper {
         UserEntity result = this.modelMapper.map(userBasicDTO, UserEntity.class);
         return result;
     }
+    public UserDto userEntityDTO(UserEntity entity){
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        UserDto result = this.modelMapper.map(entity, UserDto.class);
+        return result;
+    }
+
+    public UserEntity userDTOEntity(UserDto userDTO){
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        UserEntity result = this.modelMapper.map(userDTO, UserEntity.class);
+        return result;
+    }
 
     public List<UserBasicDTO> userEntity2DTOList(List<UserEntity> entities){
         List<UserBasicDTO> dtos = new ArrayList<>();
@@ -60,5 +71,33 @@ public class UserMapper {
     }
 
 
+    public List<UserDto> userEntityDTOList(List<UserEntity> entities){
+        List<UserDto> dtos = new ArrayList<>();
+        for(UserEntity entity:entities){
+            dtos.add(this.userEntityDTO(entity));
+        }
+        return dtos;
+    }
+
+    public List<UserEntity> userDTOEntityList(List<UserDto> dtos){
+        List<UserEntity> entities = new ArrayList<>();
+        for(UserDto dto:dtos){
+            entities.add(this.userDTOEntity(dto));
+        }
+        return entities;
+
+
+    }  public UserEntity updateUserDTO2Entity(UserDto userDTO, UserEntity userEntity) {
+
+        userEntity.setId(userEntity.getId());
+        userEntity.setFirstName(userDTO.getFirstName());
+        userEntity.setLastName(userDTO.getLastName());
+
+        return userEntity;
+
+    }}
+
+
 }
+
 

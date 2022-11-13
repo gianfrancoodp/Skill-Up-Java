@@ -41,6 +41,7 @@ public class UserAuthController {
     }
 
     @PostMapping("/register")
+
     public ResponseEntity<AuthenticationResponseDto> singUp(@Valid @RequestBody UserDto user) throws Exception{
         this.userAuthService.save(user);
         return ResponseEntity.status(HttpStatus.CREATED).build();

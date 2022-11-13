@@ -6,7 +6,6 @@ import com.alkemy.wallet.repository.IFixedTermDepositRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,8 +16,15 @@ import java.util.List;
 public class FixedTermDepositMapper {
 
     @Autowired
+
+
     private IFixedTermDepositRepository fixedTermDepositRepository;
+
+
+    private IFixedTermDepositRepository fixedTermDepositRepository;
+
     private ModelMapper modelMapper;
+
 
     // Mapper DTO to Entity
     // This mapper is used when a new Fixed-Term Deposit is created

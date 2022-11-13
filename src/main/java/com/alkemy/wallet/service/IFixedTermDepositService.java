@@ -10,7 +10,9 @@ public interface IFixedTermDepositService {
 
     FixedTermDepositDto save(FixedTermDepositDto fixedTermDepositDto, String userName) throws Exception;
 
-    String creditFixedTermDeposit(long fixedTermDepositId, String userName) throws Exception;
+
+    String accreditFixedTermDeposit(long fixedTermDepositId, String userName) throws Exception;
+
 
     public FixedTermDepositDtoSimulation simulateFixedTermDeposit(FixedTermDepositDtoSimulation dto) throws Exception;
 
