@@ -1,15 +1,14 @@
 package com.alkemy.wallet.controller;
 
+import com.alkemy.wallet.dto.AccountDto;
 import com.alkemy.wallet.model.UserEntity;
 import com.alkemy.wallet.service.IAccountService;
+import com.alkemy.wallet.util.CurrencyEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.hateoas.PagedModel;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import com.alkemy.wallet.dto.AccountDto;
-import com.alkemy.wallet.util.CurrencyEnum;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,5 +44,16 @@ public class AccountController {
         return ResponseEntity.ok().body(accountService.updateAccount(idUser,accountDto));
     }
 
+
+    @GetMapping("/accounts")
+    public ResponseEntity<PagedModel<AccountDto>> getAll(@RequestParam(required = false) Integer pageQuery){
+        try{
+            PagedModel<AccountDto> accountsDto = accountService.findAll(pageQuery);
+            return new ResponseEntity<>(accountsDto, HttpStatus.OK);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 }
 

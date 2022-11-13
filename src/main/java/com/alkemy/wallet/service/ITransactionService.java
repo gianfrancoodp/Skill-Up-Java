@@ -1,10 +1,12 @@
 package com.alkemy.wallet.service;
 
-import com.alkemy.wallet.model.Transaction;
-import com.alkemy.wallet.util.Type;
-import org.springframework.stereotype.Service;
 import com.alkemy.wallet.dto.TransactionDto;
 import com.alkemy.wallet.dto.basicDTO.UserBasicDTO;
+import com.alkemy.wallet.model.Transaction;
+import com.alkemy.wallet.util.Type;
+import org.springframework.hateoas.PagedModel;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -43,5 +45,6 @@ public interface ITransactionService {
 
     TransactionDto sendUsd(long accountId, long userId, double amount, long accountToId, Type type) throws Exception;
 
+    public PagedModel<TransactionDto> findByUser(Long userId, Integer page) throws Exception;
     }
 

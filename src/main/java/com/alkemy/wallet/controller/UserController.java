@@ -7,9 +7,10 @@ import com.alkemy.wallet.dto.UserDto;
 import com.alkemy.wallet.model.UserEntity;
 
 import com.alkemy.wallet.dto.basicDTO.UserBasicDTO;
-
+import com.alkemy.wallet.model.UserEntity;
 import com.alkemy.wallet.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,21 +27,23 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
+
     /**
      * Returns a list of all users registrered
+     *
      * @return List<User>
      * @throws Exception
      */
-    @GetMapping(value = "", produces = { MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<UserEntity>> getAll() throws Exception
-    {
-        List<UserEntity> answer=userService.getAll();
+    @GetMapping(value = "", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<UserEntity>> getAll() throws Exception {
+        List<UserEntity> answer = userService.getAll();
         return new ResponseEntity<List<UserEntity>>(answer, HttpStatus.OK);
     }
 
     @GetMapping("/users")
     public List<UserBasicDTO> getUsers() {
-        return userService.getUsers();}
+        return userService.getUsers();
+    }
 
 
 
@@ -55,9 +58,19 @@ public class UserController {
         return result;
     }
     @DeleteMapping("users/{id}")
-    public ResponseEntity<String> deleteUserById (@PathVariable Long id) throws Exception {
+    public ResponseEntity<String> deleteUserById(@PathVariable Long id) throws Exception {
         userService.delete(id);
         return ResponseEntity.ok().build();
-}
+    }
+
+    @GetMapping("/paged")
+    public ResponseEntity<PagedModel<UserBasicDTO>> getAllPaged(@RequestParam(required = false, name = "page") Integer pageQuery) {
+        try {
+            PagedModel<UserBasicDTO> usersDto = userService.findAll(pageQuery);
+            return new ResponseEntity<>(usersDto, HttpStatus.OK);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
     }
+}

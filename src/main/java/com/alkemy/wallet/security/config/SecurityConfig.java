@@ -6,10 +6,8 @@ import com.alkemy.wallet.security.filter.JwtRequestFilter;
 import com.alkemy.wallet.security.service.Impl.UserAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -19,8 +17,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
-
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
@@ -78,6 +74,9 @@ public class SecurityConfig {
                )
                .antMatchers(HttpMethod.GET,"/transactions/:id/").hasAuthority(role.getName().USER.name())
                .antMatchers(HttpMethod.PATCH,"/transactions/:id/").hasAuthority(role.getName().USER.name())
+               .antMatchers(HttpMethod.GET,"/accounts").hasAuthority(role.getName().ADMIN.name())
+               .antMatchers(HttpMethod.GET,"/users/paged").hasAuthority(role.getName().ADMIN.name())
+               .antMatchers(HttpMethod.GET,"/transactions/paged/{userId}").hasAuthority(role.getName().ADMIN.name())
                .anyRequest()
                .authenticated()
                .and()

@@ -1,29 +1,28 @@
 package com.alkemy.wallet.controller;
 
-import com.alkemy.wallet.service.ITransactionService;
-import com.alkemy.wallet.util.Type;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import com.alkemy.wallet.dto.TransactionDto;
 import com.alkemy.wallet.dto.TransactionPaymentDto;
 import com.alkemy.wallet.mapper.TransactionMapper;
 import com.alkemy.wallet.model.Transaction;
 import com.alkemy.wallet.security.util.JwtUtils;
+import com.alkemy.wallet.service.IAccountService;
+import com.alkemy.wallet.service.ITransactionService;
 import com.alkemy.wallet.service.IUserService;
+import com.alkemy.wallet.util.Type;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 
 @RestController
 @RequestMapping
-public class TransactionController {
+public class  TransactionController {
 
 
     @Autowired
@@ -32,6 +31,8 @@ public class TransactionController {
     private IUserService userService;
     @Autowired
     private JwtUtils jwtUtils;
+    @Autowired
+    private IAccountService accountService;
 
 
 
@@ -92,9 +93,11 @@ public class TransactionController {
     @PostMapping
     @RequestMapping("transactions/payment")
     public ResponseEntity<Object> payment(@RequestBody TransactionPaymentDto dto, @RequestHeader(name="Authorization") String token) throws Exception {
-       String email = jwtUtils.extractUsername(token);
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        //String email = jwtUtils.extractUsername(token);
         Transaction transaction = new TransactionMapper().dtoToEntity(dto);
         transaction.setUser(userService.findByEmail(email));
+        transaction.setAccount(accountService.findById(dto.getAccountId()).get());
         TransactionPaymentDto result = new TransactionMapper().entityToDto(service.savePayment(transaction));
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
@@ -102,9 +105,11 @@ public class TransactionController {
     @PostMapping
     @RequestMapping("transactions/deposit")
     public ResponseEntity<Object> deposit(@RequestBody TransactionPaymentDto dto, @RequestHeader(name="Authorization") String token) throws Exception {
-        String email = jwtUtils.extractUsername(token);
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        //String email = jwtUtils.extractUsername(token);
         Transaction transaction = new TransactionMapper().dtoToEntity(dto);
         transaction.setUser(userService.findByEmail(email));
+        transaction.setAccount(accountService.findById(dto.getAccountId()).get());
         TransactionPaymentDto result = new TransactionMapper().entityToDto(service.saveDeposit(transaction));
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
@@ -118,6 +123,17 @@ public class TransactionController {
                                      @RequestParam Type type) throws Exception {
 
         return ResponseEntity.ok().body(service.sendUsd(accountFromId, userId, amount, accountToId, type));
+    }
+
+    @GetMapping("/transactions/paged/{userId}")
+    public ResponseEntity<PagedModel<TransactionDto>> getAll(@PathVariable("userId") Long id, @RequestParam(name = "page", required = false) Integer pageQuery){
+        try{
+            PagedModel<TransactionDto> transactionDtos = service.findByUser(id, pageQuery);
+            return new ResponseEntity<>(transactionDtos, HttpStatus.OK);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 }

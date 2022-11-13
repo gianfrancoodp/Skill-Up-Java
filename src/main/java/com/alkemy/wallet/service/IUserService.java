@@ -3,11 +3,14 @@ package com.alkemy.wallet.service;
 
 
 
+
 import com.alkemy.wallet.dto.UserDto;
+
 
 import com.alkemy.wallet.dto.basicDTO.UserBasicDTO;
 
 import com.alkemy.wallet.model.UserEntity;
+import org.springframework.hateoas.PagedModel;
 
 
 import java.util.List;
@@ -30,6 +33,9 @@ public interface IUserService {
     List<UserBasicDTO> getUsers();
 
     UserEntity findById(long userId) throws Exception;
+
+
+    public PagedModel<UserBasicDTO> findAll(Integer page) throws Exception;
 
 
     UserDto getUserAll(long id);

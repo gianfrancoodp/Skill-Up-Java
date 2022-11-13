@@ -14,5 +14,4 @@ public class TransactionPaymentDto {
     @NotNull(message = "You must provide an account number.")
     private Long accountId;
 
-    private Long userId;
 }

@@ -1,16 +1,12 @@
 package com.alkemy.wallet.mapper;
 
 
-
 import com.alkemy.wallet.dto.UserDto;
-
 import com.alkemy.wallet.dto.basicDTO.UserBasicDTO;
-
 import com.alkemy.wallet.model.UserEntity;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.stereotype.Component;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +70,7 @@ public class UserMapper {
         return entities;
     }
 
+
     public List<UserDto> userEntityDTOList(List<UserEntity> entities){
         List<UserDto> dtos = new ArrayList<>();
         for(UserEntity entity:entities){
@@ -99,6 +96,7 @@ public class UserMapper {
         return userEntity;
 
     }}
+
 
 }
 

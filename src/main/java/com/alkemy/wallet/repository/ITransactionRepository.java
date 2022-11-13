@@ -1,6 +1,8 @@
 package com.alkemy.wallet.repository;
 
 import com.alkemy.wallet.model.Transaction;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,6 +17,7 @@ public interface ITransactionRepository extends JpaRepository<Transaction, Long>
     List<Transaction> findByUserId(long id);
     Transaction save(Transaction t);
     public List<Transaction> findByAccount(Long id);
-    @Query(value = "SELECT * FROM skill_up_java.transactions as t WHERE t.account_id=  id and t.transaction_date = current_date()", nativeQuery = true)
-    public List<Transaction> findByAccountIdAndTransactionDate(@Param("id") Long id);
+
+    @Query(value = "SELECT * FROM skill_up_java.transactions where user_id = :id", nativeQuery = true)
+    public Page<Transaction> findByUserId(@Param("id") Long id, Pageable pageable);
 }

@@ -2,12 +2,17 @@ package com.alkemy.wallet.service.impl;
 
 import com.alkemy.wallet.dto.UserDto;
 import com.alkemy.wallet.dto.basicDTO.UserBasicDTO;
+import com.alkemy.wallet.mapper.UserAssembler;
 import com.alkemy.wallet.exception.ParamNotFound;
 import com.alkemy.wallet.mapper.UserMapper;
 import com.alkemy.wallet.model.UserEntity;
 import com.alkemy.wallet.repository.IUserRepository;
 import com.alkemy.wallet.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +26,10 @@ public class UserServiceImpl implements IUserService {
     private IUserRepository userRepository;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private UserAssembler userAssembler;
+    @Autowired
+    private PagedResourcesAssembler<UserEntity> pagedResourcesAssembler;
 
     @Override
     public void delete(Long id) throws Exception {
@@ -72,6 +81,20 @@ public class UserServiceImpl implements IUserService {
         return userRepository.findById(userId).orElseThrow(()-> new Exception("User not found"));
     }
 
+    @Override
+    public PagedModel<UserBasicDTO> findAll(Integer page) throws Exception {
+        try {
+            PageRequest pageRequest = PageRequest.of(0, 10);
+            if (page != null) {
+                pageRequest = PageRequest.of(page, 10);
+            }
+            Page<UserEntity> users = userRepository.findAll(pageRequest);
+            PagedModel<UserBasicDTO> usersDto = pagedResourcesAssembler.toModel(users, userAssembler);
+            return usersDto;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }
 

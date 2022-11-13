@@ -1,27 +1,29 @@
 package com.alkemy.wallet.service.impl;
 
 
-
-import com.alkemy.wallet.dto.AccountDto;
-import com.alkemy.wallet.exception.UserNotFoundException;
+import com.alkemy.wallet.dto.AccountDto; 
+import com.alkemy.wallet.mapper.AccountAssembler;
+import com.alkemy.wallet.exception.UserNotFoundException; 
 import com.alkemy.wallet.mapper.AccountMapper;
 import com.alkemy.wallet.model.Account;
 import com.alkemy.wallet.model.FixedTermDeposit;
+import com.alkemy.wallet.model.Transaction;
 import com.alkemy.wallet.model.UserEntity;
 import com.alkemy.wallet.repository.IAccountRepository;
+import com.alkemy.wallet.repository.ITransactionRepository;
 import com.alkemy.wallet.repository.IUserRepository;
 import com.alkemy.wallet.service.IAccountService;
 import com.alkemy.wallet.service.IFixedTermDepositService;
-import com.alkemy.wallet.util.CurrencyEnum;
-
-import com.alkemy.wallet.model.Transaction;
-import com.alkemy.wallet.repository.ITransactionRepository;
 import com.alkemy.wallet.service.IUserService;
+import com.alkemy.wallet.util.CurrencyEnum;
 import com.alkemy.wallet.util.Type;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +44,11 @@ public class AccountServiceImpl implements IAccountService {
     private IUserService userService;
     @Autowired
     private ITransactionRepository transactionRepository;
+    @Autowired
+    private AccountAssembler accountAssembler;
+    @Autowired
+    private PagedResourcesAssembler<Account> pagedResourcesAssembler;
+
 
     private IFixedTermDepositService iFixedTermDepositService;
 
@@ -96,33 +103,18 @@ public class AccountServiceImpl implements IAccountService {
 
     @Override
     public Optional<Account> findById(Long id) throws Exception {
-        return accountRepository.findById(id);
+       try{
+           return accountRepository.findById(id);
+
+       } catch (Exception e) {
+           throw new RuntimeException(e);
+       }
     }
 
     @Override
     public List<Account> findByUserId(Long id) {
         return accountRepository.findByUserId(id);
     }
-
-    public boolean accountUser(Long id, String userEmail) throws Exception {
-        if (accountRepository.findByUserId(userService.findByEmail(userEmail).getId()).isEmpty())
-            return false;
-        else
-            return true;
-    }
-
-
-    @Override
-    public boolean limitTransactions(Transaction transaction) {
-        try{
-            return  (transactionRepository.findByAccountIdAndTransactionDate(transaction.getAccount().getAccountId()).size())<=transaction.getAccount().getTransactionLimit();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-
-    }
-
 
 
     @Override
@@ -248,5 +240,20 @@ public class AccountServiceImpl implements IAccountService {
         }
 
         return balance;
+    }
+
+    @Override
+    public PagedModel<AccountDto> findAll(Integer page) throws Exception {
+        try {
+            PageRequest pageRequest = PageRequest.of(0,10);
+            if(page != null) {
+                pageRequest = PageRequest.of(page, 10);
+            }
+            Page<Account> accounts = accountRepository.findAll(pageRequest);
+            PagedModel<AccountDto> accountsDto = pagedResourcesAssembler.toModel(accounts, accountAssembler);
+            return accountsDto;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
