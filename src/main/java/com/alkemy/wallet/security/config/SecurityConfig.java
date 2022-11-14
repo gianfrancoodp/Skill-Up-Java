@@ -60,6 +60,7 @@ public class SecurityConfig {
                 .cors().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST,"/auth/*").permitAll()
+                .antMatchers(HttpMethod.POST,"/role").permitAll()
                 .antMatchers("/v2/api-docs",
                         "/configuration/ui",
                         "/swagger-resources/**",
