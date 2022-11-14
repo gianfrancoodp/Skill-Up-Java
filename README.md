@@ -66,3 +66,10 @@ Once you had created the roles you must be able to create users, admins and use 
 
 ### Authors
 Group J1 Springfield
+- Aldo Ayala
+- Gian Ortega Di Pascuales
+- Giulana Castellini
+- Nicolas Romano Blandini
+- Leandro Silva
+- Esteban Casile
+- Denise Colotta Twerd
