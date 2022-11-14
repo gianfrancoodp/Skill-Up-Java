@@ -66,6 +66,7 @@ public class SecurityConfig {
                         "/configuration/security",
                         "/swagger-ui.html",
                         "/swagger-ui/**",
+                        "/swagger-ui/index.html#/*",
                         "/webjars/**").permitAll()
                 .antMatchers(HttpMethod.DELETE,"/users/:id").hasAuthority(role.getName().ADMIN.name())
                 .antMatchers(HttpMethod.GET,"/users").hasAuthority(role.getName().ADMIN.name())
