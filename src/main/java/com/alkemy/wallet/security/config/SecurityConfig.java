@@ -6,6 +6,7 @@ import com.alkemy.wallet.security.filter.JwtRequestFilter;
 import com.alkemy.wallet.security.service.Impl.UserAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,7 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-
+@Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig {
@@ -32,7 +33,7 @@ public class SecurityConfig {
     public void SecurityConfig(@Lazy UserAuthService userAuthService,
                                @Lazy JwtRequestFilter jwtRequestFilter){
         this.userAuthService = userAuthService;
-      this.jwtRequestFilter = jwtRequestFilter;
+        this.jwtRequestFilter = jwtRequestFilter;
     }
 
 
@@ -54,41 +55,45 @@ public class SecurityConfig {
     @Bean
     protected SecurityFilterChain config(HttpSecurity httpSecurity) throws Exception{
 
-       return httpSecurity
-               .csrf().disable()
-               .cors().disable()
-               .authorizeRequests()
-               .antMatchers(HttpMethod.POST,"/auth/*").permitAll()
-               .antMatchers(HttpMethod.DELETE,"/users/:id").hasAuthority(role.getName().ADMIN.name())
-               .antMatchers(HttpMethod.GET,"/users").hasAuthority(role.getName().ADMIN.name())
-               .antMatchers(HttpMethod.GET,"/account/:userId").hasAuthority(role.getName().ADMIN.name())
-               .antMatchers(HttpMethod.POST,"/account").hasAuthority(role.getName().USER.name())
-               .antMatchers(HttpMethod.POST,"/transactions/sendArs").hasAuthority(role.getName().USER.name())
-               .antMatchers(HttpMethod.POST,"/transactions/sendUsd").hasAuthority(role.getName().USER.name())
-               .antMatchers(HttpMethod.GET,"/account/balance").hasAuthority(role.getName().USER.name())
-               .antMatchers(HttpMethod.POST,"/transactions/deposit").hasAuthority(role.getName().USER.name())
-               .antMatchers(HttpMethod.POST,"/transactions/payment").hasAuthority(role.getName().USER.name())
-               .antMatchers(HttpMethod.POST,"/fixedDeposit").hasAuthority(role.getName().USER.name())
-               .antMatchers(HttpMethod.GET,"/transactions/:userId").hasAnyAuthority(
-                       role.getName().ADMIN.name(),role.getName().USER.name()
-               )
-               .antMatchers(HttpMethod.GET,"/transactions/:id/").hasAuthority(role.getName().USER.name())
-               .antMatchers(HttpMethod.PATCH,"/transactions/:id/").hasAuthority(role.getName().USER.name())
-               .antMatchers(HttpMethod.GET,"/accounts").hasAuthority(role.getName().ADMIN.name())
-               .antMatchers(HttpMethod.GET,"/users/paged").hasAuthority(role.getName().ADMIN.name())
-               .antMatchers(HttpMethod.GET,"/transactions/paged/{userId}").hasAuthority(role.getName().ADMIN.name())
-               .anyRequest()
-               .authenticated()
-               .and()
-               .httpBasic()
-               .and()
-               .exceptionHandling()
-               .and()
-               .sessionManagement()
-               .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-               .and()
-               .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
-               .build();
+        return httpSecurity
+                .csrf().disable()
+                .cors().disable()
+                .authorizeRequests()
+                .antMatchers(HttpMethod.POST,"/auth/*").permitAll()
+                .antMatchers("/v2/api-docs",
+                        "/configuration/ui",
+                        "/swagger-resources/**",
+                        "/configuration/security",
+                        "/swagger-ui.html",
+                        "/swagger-ui/**",
+                        "/webjars/**").permitAll()
+                .antMatchers(HttpMethod.DELETE,"/users/:id").hasAuthority(role.getName().ADMIN.name())
+                .antMatchers(HttpMethod.GET,"/users").hasAuthority(role.getName().ADMIN.name())
+                .antMatchers(HttpMethod.GET,"/account/:userId").hasAuthority(role.getName().ADMIN.name())
+                .antMatchers(HttpMethod.POST,"/account").hasAuthority(role.getName().USER.name())
+                .antMatchers(HttpMethod.POST,"/transactions/sendArs").hasAuthority(role.getName().USER.name())
+                .antMatchers(HttpMethod.POST,"/transactions/sendUsd").hasAuthority(role.getName().USER.name())
+                .antMatchers(HttpMethod.GET,"/account/balance").hasAuthority(role.getName().USER.name())
+                .antMatchers(HttpMethod.POST,"/transactions/deposit").hasAuthority(role.getName().USER.name())
+                .antMatchers(HttpMethod.POST,"/transactions/payment").hasAuthority(role.getName().USER.name())
+                .antMatchers(HttpMethod.POST,"/fixedDeposit").hasAuthority(role.getName().USER.name())
+                .antMatchers(HttpMethod.GET,"/transactions/:userId").hasAnyAuthority(
+                        role.getName().ADMIN.name(),role.getName().USER.name()
+                )
+                .antMatchers(HttpMethod.GET,"/transactions/:id/").hasAuthority(role.getName().USER.name())
+                .antMatchers(HttpMethod.PATCH,"/transactions/:id/").hasAuthority(role.getName().USER.name())
+                .anyRequest()
+                .authenticated()
+                .and()
+                .httpBasic()
+                .and()
+                .exceptionHandling()
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
 
     }
 
