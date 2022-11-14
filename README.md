@@ -52,3 +52,16 @@ On the root folder run:
 ```
 mvn spring-boot:run
 ```
+### INSTALLATION PROCESS:
+Before running the API you must create a new Schema on your local database with the following script:
+CREATE SCHEMA skill_up_java;
+After launching the API in your local server you must create 2 Roles (ADMIN and USER)in order to create users and admins properly:
+In order to create this roles, please submit a POST request to the following endpoint:
+http://localhost:8080/role
+using this jason format at the body of the request:
+{
+ "id":1,
+ "name":"ADMIN",
+ "description": "example"
+ }
+Once you had created the roles you must be able to create users, admins and use the different endpoints available in the application.
